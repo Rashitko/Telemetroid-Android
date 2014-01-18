@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-
-
 public class ItemListActivity extends FragmentActivity
         implements ItemListFragment.Callbacks {
 
@@ -26,11 +24,11 @@ public class ItemListActivity extends FragmentActivity
     }
 
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(int id) {
         if (mTwoPane) {
             Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
-            ItemDetailFragment fragment = new ItemDetailFragment();
+            arguments.putInt(LoginFragment.LOGIN_TYPE, id);
+            LoginFragment fragment = new LoginFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, fragment)
@@ -38,7 +36,7 @@ public class ItemListActivity extends FragmentActivity
 
         } else {
             Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(LoginFragment.LOGIN_TYPE, id);
             startActivity(detailIntent);
         }
     }
