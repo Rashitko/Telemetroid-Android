@@ -43,6 +43,7 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     ((EditText) v).setText("");
+                    ((EditText) getView().findViewById(R.id.password)).setText("");
                     ((CheckBox) getView().findViewById(R.id.rememeber_username)).setChecked(false);
                 }
             }
