@@ -3,11 +3,13 @@ package sk.pixel.telemetroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 public class ItemListActivity extends FragmentActivity
         implements ItemListFragment.Callbacks {
 
     private boolean mTwoPane;
+    private LoginFragment loginFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +30,10 @@ public class ItemListActivity extends FragmentActivity
         if (mTwoPane) {
             Bundle arguments = new Bundle();
             arguments.putInt(LoginFragment.LOGIN_TYPE, id);
-            LoginFragment fragment = new LoginFragment();
-            fragment.setArguments(arguments);
+            loginFragment = new LoginFragment();
+            loginFragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
+                    .replace(R.id.item_detail_container, loginFragment)
                     .commit();
 
         } else {
@@ -40,4 +42,13 @@ public class ItemListActivity extends FragmentActivity
             startActivity(detailIntent);
         }
     }
+
+    public void loginAsUserPressed(View view) {
+        loginFragment.loginAsUserPressed(view);
+    }
+
+    public void loginAsDevicePressed(View view) {
+        loginFragment.loginAsDevicePressed(view);
+    }
+
 }
