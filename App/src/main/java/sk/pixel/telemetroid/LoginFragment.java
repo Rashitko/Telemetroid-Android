@@ -1,11 +1,13 @@
 package sk.pixel.telemetroid;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,8 +22,10 @@ import java.util.List;
 public class LoginFragment extends Fragment implements ServerPoster.PostDataListener {
     public static final String LOGIN_TYPE = "login_type";
     public static final String LOGIN_URL = "/login";
+    private static final String USERNAME = "username";
+    private static final String SAVE_USERNAME = "save_username";
+    private static final String PREFS_NAME = "login_preferences";
     private final LoginCallbacks parent;
-    private int loginType;
 
     public interface LoginCallbacks {
         public void loginSucessfull();
@@ -32,30 +36,65 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        ((EditText) getView().findViewById(R.id.username)).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    ((EditText) v).setText("");
+                    ((CheckBox) getView().findViewById(R.id.rememeber_username)).setChecked(false);
+                }
+            }
+        });
+        setSaveCheckbox();
+        fillUsernameFromPrefs();
+    }
+
+    private void setSaveCheckbox() {
+        SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        CheckBox save = (CheckBox) getView().findViewById(R.id.rememeber_username);
+        if (preferences.contains(SAVE_USERNAME)) {
+            save.setChecked(preferences.getBoolean(SAVE_USERNAME, false));
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments().containsKey(LOGIN_TYPE)) {
-            loginType = getArguments().getInt(LOGIN_TYPE);
-        }
-        Gson gson = new Gson();
-        Log.d("TAG", gson.toJson(new GitHubService()));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = null;
-        if (loginType == ItemListFragment.USER_LOGIN_POSTITION) {
-            rootView = inflater.inflate(R.layout.user_login, container, false);
-        }
-        if (loginType == ItemListFragment.DEVICE_LOGIN_POSTITION) {
-            rootView = inflater.inflate(R.layout.device_login, container, false);
-        }
+        rootView = inflater.inflate(R.layout.user_login, container, false);
         return rootView;
+    }
+
+    private void fillUsernameFromPrefs() {
+        SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        EditText username = (EditText) getView().findViewById(R.id.username);
+        if (preferences.contains(USERNAME)) {
+            username.setText(preferences.getString(USERNAME, ""));
+        }
     }
 
     public void loginAsUserPressed(View view) {
         userLogin();
+    }
+
+    private void saveUsername() {
+        Log.d("TAG", "save");
+        CheckBox checkBox = (CheckBox) getView().findViewById(R.id.rememeber_username);
+        SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        if (checkBox.isChecked()) {
+            EditText username = (EditText) getView().findViewById(R.id.username);
+            editor.putString(USERNAME, username.getText().toString());
+            editor.putBoolean(SAVE_USERNAME, true);
+        }
+        editor.commit();
     }
 
     private void userLogin() {
@@ -80,6 +119,7 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
     @Override
     public void onPostDataReceived(String data) {
         if (data.equals("")) {
+            saveUsername();
             parent.loginSucessfull();
             return;
         }

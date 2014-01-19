@@ -29,18 +29,18 @@ public class ItemListActivity extends FragmentActivity
     @Override
     public void onItemSelected(int id) {
         if (mTwoPane) {
-            Bundle arguments = new Bundle();
-            arguments.putInt(LoginFragment.LOGIN_TYPE, id);
-            loginFragment = new LoginFragment(this);
-            loginFragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, loginFragment)
-                    .commit();
+            if (id == ItemListFragment.USER_LOGIN_POSTITION) {
+                loginFragment = new LoginFragment(this);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.item_detail_container, loginFragment)
+                        .commit();
+            }
 
         } else {
-            Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            detailIntent.putExtra(LoginFragment.LOGIN_TYPE, id);
-            startActivity(detailIntent);
+            if (id == ItemListFragment.USER_LOGIN_POSTITION) {
+                Intent detailIntent = new Intent(this, ItemDetailActivity.class);
+                startActivity(detailIntent);
+            }
         }
     }
 

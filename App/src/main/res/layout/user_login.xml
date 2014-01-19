@@ -6,24 +6,25 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:id="@+id/errors"
             android:layout_gravity="center_horizontal"
             android:visibility="gone"
             android:background="@drawable/border"
             android:textColor="#000000"
-            android:text="testovanie niecoho" />
+            android:text="testovanie niecoho"
+            android:gravity="center" />
 
         <com.beardedhen.androidbootstrap.BootstrapEditText
             android:id="@+id/username"
-            android:layout_width="150dp"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:hint="username"
@@ -33,7 +34,7 @@
 
         <com.beardedhen.androidbootstrap.BootstrapEditText
             android:id="@+id/password"
-            android:layout_width="150dp"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:hint="password"
@@ -42,11 +43,19 @@
             android:layout_gravity="center_horizontal"
             android:inputType="textPassword" />
 
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember me"
+            android:id="@+id/rememeber_username"
+            android:layout_gravity="center_horizontal" />
+
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Login"
+            bootstrapbutton:bb_size="large"
             bootstrapbutton:bb_roundedCorners="true"
             bootstrapbutton:bb_type="success"
             android:gravity="center"
