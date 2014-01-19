@@ -72,7 +72,6 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
 
     @Override
     public void onPostDataReceived(String data) {
-        Log.d("TAG", data);
         Gson gson = new Gson();
         GitHubService response = gson.fromJson(data, GitHubService.class);
         response.toString();
