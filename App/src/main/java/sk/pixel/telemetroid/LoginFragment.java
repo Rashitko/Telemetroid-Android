@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -19,9 +20,15 @@ import java.util.List;
 public class LoginFragment extends Fragment implements ServerPoster.PostDataListener {
     public static final String LOGIN_TYPE = "login_type";
     public static final String LOGIN_URL = "/login";
+    private final LoginCallbacks parent;
     private int loginType;
 
-    public LoginFragment() {
+    public interface LoginCallbacks {
+        public void loginSucessfull();
+    }
+
+    public LoginFragment(LoginCallbacks parent) {
+        this.parent = parent;
     }
 
     @Override
@@ -72,8 +79,16 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
 
     @Override
     public void onPostDataReceived(String data) {
+        if (data.equals("")) {
+            parent.loginSucessfull();
+            return;
+        }
         Gson gson = new Gson();
         GitHubService response = gson.fromJson(data, GitHubService.class);
-        response.toString();
+        if (response.getCode() == 3) {
+            TextView errors = (TextView) getView().findViewById(R.id.errors);
+            errors.setText(response.getMessages());
+            errors.setVisibility(View.VISIBLE);
+        }
     }
 }

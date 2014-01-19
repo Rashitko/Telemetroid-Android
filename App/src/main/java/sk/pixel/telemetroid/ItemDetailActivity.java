@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.gson.Gson;
 
-public class ItemDetailActivity extends FragmentActivity {
+public class ItemDetailActivity extends FragmentActivity implements LoginFragment.LoginCallbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class ItemDetailActivity extends FragmentActivity {
             Bundle arguments = new Bundle();
             arguments.putString(LoginFragment.LOGIN_TYPE,
                     getIntent().getStringExtra(LoginFragment.LOGIN_TYPE));
-            LoginFragment fragment = new LoginFragment();
+            LoginFragment fragment = new LoginFragment(this);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container, fragment)
@@ -36,5 +37,10 @@ public class ItemDetailActivity extends FragmentActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void loginSucessfull() {
+        Log.d("TAG", "logged in");
     }
 }

@@ -15,4 +15,11 @@ public class GitHubService {
         return result;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public String getMessages() {
+        return messages;
+    }
 }

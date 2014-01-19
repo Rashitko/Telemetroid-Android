@@ -3,10 +3,11 @@ package sk.pixel.telemetroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 
 public class ItemListActivity extends FragmentActivity
-        implements ItemListFragment.Callbacks {
+        implements ItemListFragment.Callbacks, LoginFragment.LoginCallbacks{
 
     private boolean mTwoPane;
     private LoginFragment loginFragment;
@@ -30,7 +31,7 @@ public class ItemListActivity extends FragmentActivity
         if (mTwoPane) {
             Bundle arguments = new Bundle();
             arguments.putInt(LoginFragment.LOGIN_TYPE, id);
-            loginFragment = new LoginFragment();
+            loginFragment = new LoginFragment(this);
             loginFragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, loginFragment)
@@ -51,4 +52,8 @@ public class ItemListActivity extends FragmentActivity
         loginFragment.loginAsDevicePressed(view);
     }
 
+    @Override
+    public void loginSucessfull() {
+        Log.d("TAG", "logged");
+    }
 }
