@@ -1,11 +1,18 @@
 package sk.pixel.telemetroid;
 
-import java.util.List;
 
-import retrofit.http.GET;
-import retrofit.http.Path;
+import android.util.Log;
 
-public interface GitHubService {
-    @GET("/params")
-    String listRepos(@Path("user") String user);
+import java.util.Arrays;
+
+public class GitHubService {
+    private int code;
+    private String[] messages;
+
+    public String toString() {
+        String result = "code: " + code + " messages: " + Arrays.toString(messages);
+        Log.d("TAG", result);
+        return result;
+    }
+
 }

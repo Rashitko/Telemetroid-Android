@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -28,6 +30,8 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
         if (getArguments().containsKey(LOGIN_TYPE)) {
             loginType = getArguments().getInt(LOGIN_TYPE);
         }
+        Gson gson = new Gson();
+        Log.d("TAG", gson.toJson(new GitHubService()));
     }
 
     @Override
@@ -69,5 +73,8 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
     @Override
     public void onPostDataReceived(String data) {
         Log.d("TAG", data);
+        Gson gson = new Gson();
+        GitHubService response = gson.fromJson(data, GitHubService.class);
+        response.toString();
     }
 }
