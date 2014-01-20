@@ -49,7 +49,9 @@ public class ServerPoster extends AsyncTask<String, Void, String> {
         HttpPost httppost = new HttpPost(SERVER_ADDRESS + params[0]);
         String result = CONNECTION_ERROR;
         try {
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            if (nameValuePairs != null) {
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            }
             HttpResponse response = httpclient.execute(httppost);
             result = EntityUtils.toString(response.getEntity());
             Log.d("TAG", result);

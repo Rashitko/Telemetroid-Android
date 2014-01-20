@@ -1,17 +1,17 @@
 package sk.pixel.telemetroid;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 public class ItemListActivity extends FragmentActivity
-        implements ItemListFragment.Callbacks, LoginFragment.LoginCallbacks{
+        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerPoster.PostDataListener, LogoutConfirmationDialog.LogoutDialogListener {
 
     private boolean mTwoPane;
     private LoginFragment loginFragment;
     private MainScreenFragment mainScreenFragment;
+    private LogoutConfirmationDialog logoutConfirmDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,29 +20,11 @@ public class ItemListActivity extends FragmentActivity
 
         if (findViewById(R.id.item_detail_container) != null) {
             mTwoPane = true;
-            ((ItemListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.item_list))
-                    .setActivateOnItemClick(true);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.options_container, new LoginOptionsListFragment(this))
+                    .commit();
         }
         // TODO: If exposing deep links into your app, handle intents here.
-    }
-
-    @Override
-    public void onItemSelected(int id) {
-        if (mTwoPane) {
-            if (id == ItemListFragment.USER_LOGIN_POSITION) {
-                loginFragment = new LoginFragment(this);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.item_detail_container, loginFragment)
-                        .commit();
-            }
-
-        } else {
-            if (id == ItemListFragment.USER_LOGIN_POSITION) {
-                Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-                startActivity(detailIntent);
-            }
-        }
     }
 
     public void loginAsUserPressed(View view) {
@@ -60,13 +42,47 @@ public class ItemListActivity extends FragmentActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, mainScreenFragment)
                     .commit();
-            ((ItemListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.item_list))
-                    .setOptions(ItemListFragment.OPTIONS_MAIN);
-        } else {
-            Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            startActivity(detailIntent);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.options_container, new MainOptionsListFragment(this))
+                    .commit();
         }
-        Log.d("TAG", "logged");
+    }
+
+    @Override
+    public void loginAsUserOptionClicked() {
+        if (mTwoPane) {
+            loginFragment = new LoginFragment(this);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.item_detail_container, loginFragment)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void onLogoutClicked() {
+        FragmentManager fm = getSupportFragmentManager();
+        logoutConfirmDialog = new LogoutConfirmationDialog(this);
+        logoutConfirmDialog.show(fm, "logout_confirmation");
+    }
+
+    public void logout() {
+        ServerPoster poster = new ServerPoster(this, null);
+        poster.execute("/logout");
+    }
+
+    @Override
+    public void onPostDataReceived(String data) {
+        logoutConfirmDialog.dismiss();
+        if (data.equals(ServerPoster.CONNECTION_ERROR)) {
+            FragmentManager fm = getSupportFragmentManager();
+            ErrorDialog errorDialog = new ErrorDialog("Can't connect to server");
+            errorDialog.show(fm, "error_confirmation");
+            return;
+        }
+        getSupportFragmentManager().beginTransaction()
+                .remove(getSupportFragmentManager().findFragmentById(R.id.item_detail_container));
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.options_container, new LoginOptionsListFragment(this))
+                .commit();
     }
 }

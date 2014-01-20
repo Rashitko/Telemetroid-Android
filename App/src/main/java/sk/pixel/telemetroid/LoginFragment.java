@@ -42,7 +42,13 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
     @Override
     public void onStart() {
         super.onStart();
-        ((EditText) getView().findViewById(R.id.username)).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        clearEditTextsOnFocus();
+        setSaveCheckbox();
+        fillUsernameFromPrefs();
+    }
+
+    private void clearEditTextsOnFocus() {
+        getView().findViewById(R.id.username).setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -52,8 +58,6 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
                 }
             }
         });
-        setSaveCheckbox();
-        fillUsernameFromPrefs();
     }
 
     private void setSaveCheckbox() {

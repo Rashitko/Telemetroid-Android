@@ -7,9 +7,9 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.google.gson.Gson;
-
 public class ItemDetailActivity extends FragmentActivity implements LoginFragment.LoginCallbacks {
+
+    private LoginFragment loginFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +18,9 @@ public class ItemDetailActivity extends FragmentActivity implements LoginFragmen
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
-            LoginFragment fragment = new LoginFragment(this);
+            loginFragment = new LoginFragment(this);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.item_detail_container, fragment)
+                    .add(R.id.item_detail_container, loginFragment)
                     .commit();
         }
     }
