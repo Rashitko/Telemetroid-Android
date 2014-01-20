@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.util.Arrays;
 
-public class GitHubService {
+public class ServerErrorResponse {
     private int code;
     private String messages;
 

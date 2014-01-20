@@ -99,14 +99,28 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
     }
 
     private void userLogin() {
-        //TODO login as user
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
         EditText username = (EditText) getView().findViewById(R.id.username);
         EditText password = (EditText) getView().findViewById(R.id.password);
+        if (!validateUsernameAndPassword(username.getText().toString(), password.getText().toString())) {
+            return;
+        }
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
         nameValuePairs.add(new BasicNameValuePair("username", username.getText().toString()));
         nameValuePairs.add(new BasicNameValuePair("password", password.getText().toString()));
         ServerPoster poster = new ServerPoster(this, nameValuePairs);
         poster.execute(LOGIN_URL);
+    }
+
+    private boolean validateUsernameAndPassword(String username, String password) {
+        if (username.length() < 1) {
+            showError("Username is too short");
+            return false;
+        }
+        if (password.length() < 6) {
+            showError("Password is too short");
+            return false;
+        }
+        return true;
     }
 
     public void loginAsDevicePressed(View view) {
@@ -125,11 +139,16 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
             return;
         }
         Gson gson = new Gson();
-        GitHubService response = gson.fromJson(data, GitHubService.class);
+        ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
+        String text = response.getMessages();
         if (response.getCode() == 3) {
-            TextView errors = (TextView) getView().findViewById(R.id.errors);
-            errors.setText(response.getMessages());
-            errors.setVisibility(View.VISIBLE);
+            showError(text);
         }
+    }
+
+    private void showError(String text) {
+        TextView errors = (TextView) getView().findViewById(R.id.errors);
+        errors.setText(text);
+        errors.setVisibility(View.VISIBLE);
     }
 }
