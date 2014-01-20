@@ -10,6 +10,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -20,7 +23,7 @@ import java.util.List;
  */
 public class ServerPoster extends AsyncTask<String, Void, String> {
 
-    private static final String CONNECTION_ERROR = "error";
+    public static final String CONNECTION_ERROR = "error";
     public static final String SERVER_ADDRESS = "http://192.168.0.158:3000";
     private final PostDataListener listener;
     List<NameValuePair> nameValuePairs;
@@ -36,7 +39,13 @@ public class ServerPoster extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        HttpClient httpclient = new DefaultHttpClient();
+        DefaultHttpClient httpclient = new DefaultHttpClient();
+        HttpParams httpParameters = new BasicHttpParams();
+        int timeoutConnection = 3000;
+        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+        int timeoutSocket = 5000;
+        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+        httpclient.setParams(httpParameters);
         HttpPost httppost = new HttpPost(SERVER_ADDRESS + params[0]);
         String result = CONNECTION_ERROR;
         try {

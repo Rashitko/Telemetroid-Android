@@ -50,17 +50,32 @@
             android:id="@+id/rememeber_username"
             android:layout_gravity="center_horizontal" />
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Login"
-            bootstrapbutton:bb_size="large"
-            bootstrapbutton:bb_roundedCorners="true"
-            bootstrapbutton:bb_type="success"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:onClick="loginAsUserPressed" />
+            android:layout_gravity="center_horizontal">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Login"
+                bootstrapbutton:bb_size="large"
+                bootstrapbutton:bb_roundedCorners="true"
+                bootstrapbutton:bb_type="success"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:onClick="loginAsUserPressed"
+                android:id="@+id/login" />
+        </RelativeLayout>
 
     </LinearLayout>
 </RelativeLayout>

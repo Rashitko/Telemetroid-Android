@@ -7,10 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
@@ -109,6 +113,14 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
         nameValuePairs.add(new BasicNameValuePair("password", password.getText().toString()));
         ServerPoster poster = new ServerPoster(this, nameValuePairs);
         poster.execute(LOGIN_URL);
+        makeProgresBarVisible();
+    }
+
+    private void makeProgresBarVisible() {
+        ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.progressBar);
+        BootstrapButton button = (BootstrapButton) getView().findViewById(R.id.login);
+        progressBar.setVisibility(View.VISIBLE);
+        button.setVisibility(View.INVISIBLE);
     }
 
     private boolean validateUsernameAndPassword(String username, String password) {
@@ -133,9 +145,14 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
 
     @Override
     public void onPostDataReceived(String data) {
+        makeProgresBarInvisible();
         if (data.equals("")) {
             saveUsername();
             parent.loginSucessfull();
+            return;
+        }
+        if (data.equals(ServerPoster.CONNECTION_ERROR)) {
+            showError("Can't connect to server");
             return;
         }
         Gson gson = new Gson();
@@ -144,6 +161,13 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
         if (response.getCode() == 3) {
             showError(text);
         }
+    }
+
+    private void makeProgresBarInvisible() {
+        ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
+        BootstrapButton button = (BootstrapButton) getView().findViewById(R.id.login);
+        button.setVisibility(View.VISIBLE);
     }
 
     private void showError(String text) {
