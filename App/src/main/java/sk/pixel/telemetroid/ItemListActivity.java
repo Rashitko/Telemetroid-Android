@@ -1,16 +1,17 @@
 package sk.pixel.telemetroid;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 public class ItemListActivity extends FragmentActivity
-        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerPoster.PostDataListener {
+        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerPoster.PostDataListener, LogoutConfirmationDialog.LogoutDialogListener {
 
     private boolean mTwoPane;
     private LoginFragment loginFragment;
     private MainScreenFragment mainScreenFragment;
+    private LogoutConfirmationDialog logoutConfirmDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,17 +60,25 @@ public class ItemListActivity extends FragmentActivity
 
     @Override
     public void onLogoutClicked() {
-        logout();
+        FragmentManager fm = getSupportFragmentManager();
+        logoutConfirmDialog = new LogoutConfirmationDialog(this);
+        logoutConfirmDialog.show(fm, "logout_confirmation");
     }
 
-    private void logout() {
-        Dialo
+    public void logout() {
         ServerPoster poster = new ServerPoster(this, null);
         poster.execute("/logout");
     }
 
     @Override
     public void onPostDataReceived(String data) {
+        logoutConfirmDialog.dismiss();
+        if (data.equals(ServerPoster.CONNECTION_ERROR)) {
+            FragmentManager fm = getSupportFragmentManager();
+            ErrorDialog errorDialog = new ErrorDialog("Can't connect to server");
+            errorDialog.show(fm, "error_confirmation");
+            return;
+        }
         getSupportFragmentManager().beginTransaction()
                 .remove(getSupportFragmentManager().findFragmentById(R.id.item_detail_container));
         getSupportFragmentManager().beginTransaction()

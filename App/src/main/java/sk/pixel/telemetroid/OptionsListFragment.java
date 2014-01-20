@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import java.util.Arrays;
 
-public class OptionsListFragment extends ListFragment {
+public abstract class OptionsListFragment extends ListFragment {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     protected String[] options = {};
