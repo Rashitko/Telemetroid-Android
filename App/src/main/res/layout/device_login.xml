@@ -1,0 +1,37 @@
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <com.beardedhen.androidbootstrap.BootstrapEditText
+            android:id="@+id/password"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="password"
+            bootstrapbutton:be_roundedCorners="true"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:inputType="textPassword" />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Login as device"
+            bootstrapbutton:bb_roundedCorners="true"
+            bootstrapbutton:bb_type="success"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:onClick="loginAsDevicePressed"/>
+
+    </LinearLayout>
+</RelativeLayout>
