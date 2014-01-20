@@ -7,14 +7,30 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import sk.pixel.telemetroid.dummy.DummyContent;
-
 public class ItemListFragment extends ListFragment {
 
-    public static final int USER_LOGIN_POSTITION = 0, DEVICE_LOGIN_POSTITION = 1;
+    public static final int USER_LOGIN_POSITION = 0;
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    public static final String OPTIONS_MAIN = "options_main", OPTIONS_LOGIN = "options_login";
+    public static final String[] LOGIN_OPTIONS = new String[]{"User login"},
+                                MAIN_OPTIONS = new String[] {"Logout"};
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
+
+    public void setOptions(String optionsMain) {
+        String[] options = {};
+        if (optionsMain.equals(OPTIONS_MAIN)) {
+           options = MAIN_OPTIONS;
+        }
+        if (optionsMain.equals(OPTIONS_LOGIN)) {
+            options = LOGIN_OPTIONS;
+        }
+        setListAdapter(new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_list_item_activated_1,
+                android.R.id.text1,
+                options));
+    }
 
     public interface Callbacks {
         public void onItemSelected(int id);
@@ -37,7 +53,7 @@ public class ItemListFragment extends ListFragment {
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                new String[] {"User login","Device login"}));
+                LOGIN_OPTIONS));
     }
 
     @Override

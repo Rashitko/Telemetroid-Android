@@ -11,6 +11,7 @@ public class ItemListActivity extends FragmentActivity
 
     private boolean mTwoPane;
     private LoginFragment loginFragment;
+    private MainScreenFragment mainScreenFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class ItemListActivity extends FragmentActivity
     @Override
     public void onItemSelected(int id) {
         if (mTwoPane) {
-            if (id == ItemListFragment.USER_LOGIN_POSTITION) {
+            if (id == ItemListFragment.USER_LOGIN_POSITION) {
                 loginFragment = new LoginFragment(this);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.item_detail_container, loginFragment)
@@ -37,7 +38,7 @@ public class ItemListActivity extends FragmentActivity
             }
 
         } else {
-            if (id == ItemListFragment.USER_LOGIN_POSTITION) {
+            if (id == ItemListFragment.USER_LOGIN_POSITION) {
                 Intent detailIntent = new Intent(this, ItemDetailActivity.class);
                 startActivity(detailIntent);
             }
@@ -54,6 +55,18 @@ public class ItemListActivity extends FragmentActivity
 
     @Override
     public void loginSucessfull() {
+        if (mTwoPane) {
+            mainScreenFragment = new MainScreenFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.item_detail_container, mainScreenFragment)
+                    .commit();
+            ((ItemListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.item_list))
+                    .setOptions(ItemListFragment.OPTIONS_MAIN);
+        } else {
+            Intent detailIntent = new Intent(this, ItemDetailActivity.class);
+            startActivity(detailIntent);
+        }
         Log.d("TAG", "logged");
     }
 }

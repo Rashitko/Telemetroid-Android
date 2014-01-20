@@ -18,11 +18,7 @@ public class ItemDetailActivity extends FragmentActivity implements LoginFragmen
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
-            Bundle arguments = new Bundle();
-            arguments.putString(LoginFragment.LOGIN_TYPE,
-                    getIntent().getStringExtra(LoginFragment.LOGIN_TYPE));
             LoginFragment fragment = new LoginFragment(this);
-            fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container, fragment)
                     .commit();
