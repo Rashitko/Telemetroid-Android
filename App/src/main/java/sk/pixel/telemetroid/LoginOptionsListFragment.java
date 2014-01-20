@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-/**
- * Created by micha_000 on 20.1.2014.
- */
 public class LoginOptionsListFragment extends OptionsListFragment{
 
     public static final int USER_LOGIN_POSITION = 0;

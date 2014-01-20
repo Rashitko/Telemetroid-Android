@@ -11,9 +11,7 @@ import java.util.Arrays;
 
 public class OptionsListFragment extends ListFragment {
 
-    public static final int USER_LOGIN_POSITION = 0;
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    public static final String OPTIONS_MAIN = "options_main", OPTIONS_LOGIN = "options_login";
     protected String[] options = {};
     private int mActivatedPosition = ListView.INVALID_POSITION;
 

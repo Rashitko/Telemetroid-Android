@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 public class ItemListActivity extends FragmentActivity
-        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks {
+        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerPoster.PostDataListener {
 
     private boolean mTwoPane;
     private LoginFragment loginFragment;
@@ -41,9 +41,9 @@ public class ItemListActivity extends FragmentActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, mainScreenFragment)
                     .commit();
-        } else {
-            Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            startActivity(detailIntent);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.options_container, new MainOptionsListFragment(this))
+                    .commit();
         }
     }
 
@@ -55,5 +55,25 @@ public class ItemListActivity extends FragmentActivity
                     .replace(R.id.item_detail_container, loginFragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void onLogoutClicked() {
+        logout();
+    }
+
+    private void logout() {
+        Dialo
+        ServerPoster poster = new ServerPoster(this, null);
+        poster.execute("/logout");
+    }
+
+    @Override
+    public void onPostDataReceived(String data) {
+        getSupportFragmentManager().beginTransaction()
+                .remove(getSupportFragmentManager().findFragmentById(R.id.item_detail_container));
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.options_container, new LoginOptionsListFragment(this))
+                .commit();
     }
 }
