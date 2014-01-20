@@ -113,10 +113,10 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
         nameValuePairs.add(new BasicNameValuePair("password", password.getText().toString()));
         ServerPoster poster = new ServerPoster(this, nameValuePairs);
         poster.execute(LOGIN_URL);
-        makeProgresBarVisible();
+        makeProgressBarVisible();
     }
 
-    private void makeProgresBarVisible() {
+    private void makeProgressBarVisible() {
         ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.progressBar);
         BootstrapButton button = (BootstrapButton) getView().findViewById(R.id.login);
         progressBar.setVisibility(View.VISIBLE);
@@ -145,7 +145,7 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
 
     @Override
     public void onPostDataReceived(String data) {
-        makeProgresBarInvisible();
+        makeProgressBarInvisible();
         if (data.equals("")) {
             saveUsername();
             parent.loginSucessfull();
@@ -163,7 +163,7 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
         }
     }
 
-    private void makeProgresBarInvisible() {
+    private void makeProgressBarInvisible() {
         ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         BootstrapButton button = (BootstrapButton) getView().findViewById(R.id.login);
