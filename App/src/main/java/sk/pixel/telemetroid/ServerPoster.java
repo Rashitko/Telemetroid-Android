@@ -3,10 +3,11 @@ package sk.pixel.telemetroid;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.loopj.android.http.*;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -24,13 +25,27 @@ import java.util.List;
 public class ServerPoster extends AsyncTask<String, Void, String> {
 
     public static final String CONNECTION_ERROR = "error";
-    public static final String SERVER_ADDRESS = "http://192.168.0.158:3000";
+    public static final String SERVER_ADDRESS = "http://10.0.0.145:3000";
     private final PostDataListener listener;
     List<NameValuePair> nameValuePairs;
 
     public ServerPoster(PostDataListener listener, List<NameValuePair> nameValuePairs) {
         this.listener = listener;
         this.nameValuePairs = nameValuePairs;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.setTimeout(5000);
+        client.get(SERVER_ADDRESS + "/who", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String content) {
+                Log.d("TAG", "sucess");
+            }
+
+            @Override
+            public void onFailure(Throwable error) {
+                Log.d("TAG", "fail");
+            }
+        });
+        AsyncHttpResponseHandler responseHandler = new AsyncHttpResponseHandler();
     }
 
     public interface PostDataListener {
