@@ -22,8 +22,6 @@ public abstract class OptionsListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("TAG", "constructor called");
-        Log.d("TAG", Arrays.toString(options));
         setListAdapter(new ArrayAdapter<String>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
