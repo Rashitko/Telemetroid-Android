@@ -62,6 +62,16 @@ public class ItemListActivity extends FragmentActivity
     }
 
     @Override
+    public void registerNewUserClicked() {
+        if (mTwoPane) {
+            RegisterUserFragment registerUserFragment = new RegisterUserFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.item_detail_container, registerUserFragment)
+                    .commit();
+        }
+    }
+
+    @Override
     public void onLogoutClicked() {
         FragmentManager fm = getSupportFragmentManager();
         logoutConfirmDialog = new LogoutConfirmationDialog(this);
