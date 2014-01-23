@@ -7,15 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -23,7 +22,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginFragment extends Fragment implements ServerPoster.PostDataListener {
+public class LoginFragment extends Fragment implements ServerCommunicator.ServerResponseListener {
     public static final String LOGIN_TYPE = "login_type";
     public static final String LOGIN_URL = "/login";
     private static final String USERNAME = "username";
@@ -112,11 +111,11 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
         if (!validateUsernameAndPassword(username.getText().toString(), password.getText().toString())) {
             return;
         }
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        nameValuePairs.add(new BasicNameValuePair("username", username.getText().toString()));
-        nameValuePairs.add(new BasicNameValuePair("password", password.getText().toString()));
-        ServerPoster poster = new ServerPoster(this, nameValuePairs);
-        poster.execute(LOGIN_URL);
+        RequestParams params = new RequestParams();
+        params.put("username", username.getText().toString());
+        params.put("password", password.getText().toString());
+        ServerCommunicator poster = new ServerCommunicator(this, getActivity());
+        poster.post(ServerCommunicator.LOGIN_URL, params);
         makeProgressBarVisible();
     }
 
@@ -155,16 +154,21 @@ public class LoginFragment extends Fragment implements ServerPoster.PostDataList
             parent.loginSucessfull();
             return;
         }
-        if (data.equals(ServerPoster.CONNECTION_ERROR)) {
-            showError("Can't connect to server");
-            return;
-        }
         Gson gson = new Gson();
         ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
         String text = response.getMessages();
         if (response.getCode() == 3) {
             showError(text);
+        } else {
+            Log.e("TAG", response.toString());
+            showError(text);
         }
+    }
+
+    @Override
+    public void onConnectionError() {
+        makeProgressBarInvisible();
+        showError("Can't connect to server");
     }
 
     private void makeProgressBarInvisible() {

@@ -3,10 +3,13 @@ package sk.pixel.telemetroid;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
 public class ItemListActivity extends FragmentActivity
-        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerPoster.PostDataListener, LogoutConfirmationDialog.LogoutDialogListener {
+        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener {
 
     private boolean mTwoPane;
     private LoginFragment loginFragment;
@@ -65,24 +68,44 @@ public class ItemListActivity extends FragmentActivity
         logoutConfirmDialog.show(fm, "logout_confirmation");
     }
 
+    @Override
+    public void onWhoClicked() {
+        ServerCommunicator poster = new ServerCommunicator(this, this);
+        poster.get(ServerCommunicator.WHO_URL, null, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String content) {
+                Log.d("TAG", content);
+            }
+
+            @Override
+            public void onFailure(Throwable error) {
+                Log.e("TAG", "/who failed");
+            }
+        });
+    }
+
     public void logout() {
-        ServerPoster poster = new ServerPoster(this, null);
-        poster.execute("/logout");
+        ServerCommunicator poster = new ServerCommunicator(this, this);
+        poster.post(ServerCommunicator.LOGOUT_URL, null);
     }
 
     @Override
     public void onPostDataReceived(String data) {
         logoutConfirmDialog.dismiss();
-        if (data.equals(ServerPoster.CONNECTION_ERROR)) {
-            FragmentManager fm = getSupportFragmentManager();
-            ErrorDialog errorDialog = new ErrorDialog("Can't connect to server");
-            errorDialog.show(fm, "error_confirmation");
-            return;
+        if (mTwoPane) {
+            getSupportFragmentManager().beginTransaction()
+                    .remove(getSupportFragmentManager().findFragmentById(R.id.item_detail_container));
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.options_container, new LoginOptionsListFragment(this))
+                    .commit();
         }
-        getSupportFragmentManager().beginTransaction()
-                .remove(getSupportFragmentManager().findFragmentById(R.id.item_detail_container));
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.options_container, new LoginOptionsListFragment(this))
-                .commit();
+    }
+
+    @Override
+    public void onConnectionError() {
+        logoutConfirmDialog.dismiss();
+        FragmentManager fm = getSupportFragmentManager();
+        ErrorDialog errorDialog = new ErrorDialog("Can't connect to server");
+        errorDialog.show(fm, "error_confirmation");
     }
 }
