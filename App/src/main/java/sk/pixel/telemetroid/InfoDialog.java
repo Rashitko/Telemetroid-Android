@@ -7,19 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class ErrorDialog extends DialogFragment {
+import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.BootstrapEditText;
+
+public class InfoDialog extends DialogFragment {
+
+    public static final String BUTTON_TYPE_DANGER = "danger", BUTTON_TYPE_SUCCESS = "success";
 
     private final String message;
+    private final String title;
+    private final String type;
 
-    public ErrorDialog(String message) {
+    public InfoDialog(String message, String title, String type) {
         this.message = message;
+        this.title = title;
+        this.type = type;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.error_dialog, container);
-        getDialog().setTitle("Error occured");
+        getDialog().setTitle(title);
         return view;
     }
 
@@ -33,5 +42,6 @@ public class ErrorDialog extends DialogFragment {
                 dismiss();
             }
         });
+        ((BootstrapButton) getView().findViewById(R.id.confirm)).setBootstrapType(type);
     }
 }

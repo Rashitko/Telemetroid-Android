@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoginFragment extends Fragment implements ServerCommunicator.ServerResponseListener {
-    public static final String LOGIN_TYPE = "login_type";
-    public static final String LOGIN_URL = "/login";
     private static final String USERNAME = "username";
     private static final String SAVE_USERNAME = "save_username";
     private static final String PREFS_NAME = "login_preferences";
@@ -75,8 +73,7 @@ public class LoginFragment extends Fragment implements ServerCommunicator.Server
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = null;
-        rootView = inflater.inflate(R.layout.user_login, container, false);
+        View rootView = inflater.inflate(R.layout.user_login, container, false);
         return rootView;
     }
 
@@ -156,7 +153,7 @@ public class LoginFragment extends Fragment implements ServerCommunicator.Server
         }
         Gson gson = new Gson();
         ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
-        String text = response.getMessages();
+        String text = response.getMessages()[0];
         if (response.getCode() == 3) {
             showError(text);
         } else {

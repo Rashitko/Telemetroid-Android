@@ -7,10 +7,10 @@ import java.util.Arrays;
 
 public class ServerErrorResponse {
     private int code;
-    private String messages;
+    private String[] messages;
 
     public String toString() {
-        String result = "code: " + code + " messages: " + messages;
+        String result = "code: " + code + " messages: " + Arrays.toString(messages);
         Log.d("TAG", result);
         return result;
     }
@@ -19,7 +19,7 @@ public class ServerErrorResponse {
         return code;
     }
 
-    public String getMessages() {
+    public String[] getMessages() {
         return messages;
     }
 }

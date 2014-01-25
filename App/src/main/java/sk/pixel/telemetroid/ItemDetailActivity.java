@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 public class ItemDetailActivity extends FragmentActivity implements LoginFragment.LoginCallbacks {
 
@@ -39,4 +40,6 @@ public class ItemDetailActivity extends FragmentActivity implements LoginFragmen
     public void loginSucessfull() {
         Log.d("TAG", "logged in");
     }
+
+
 }
