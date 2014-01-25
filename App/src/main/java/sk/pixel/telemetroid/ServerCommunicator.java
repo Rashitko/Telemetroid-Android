@@ -1,5 +1,6 @@
 package sk.pixel.telemetroid;
 
+import android.app.FragmentManager;
 import android.content.Context;
 
 import com.loopj.android.http.*;
@@ -11,7 +12,7 @@ public class ServerCommunicator {
     private static final String BASE_URL = "http://10.0.0.145:3000";
     public static final String LOGIN_URL = "/login", LOGOUT_URL = "/logout";
     public static final String WHO_URL = "/who", PARAMS_URL = "/params";
-    public static final String REGISTER_USER_URL = "/users/new";
+    public static final String REGISTER_USER_URL = "/users/new", REGISTER_DEVICE_URL = "/devices/new";
     private final ServerResponseListener listener;
     private AsyncHttpClient client;
     private final AsyncHttpResponseHandler responseHandler;
