@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
 public class RegisterDeviceDialog extends DialogFragment implements ServerCommunicator.ServerResponseListener {
@@ -23,11 +24,44 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
 
     @Override
     public void onPostDataReceived(String data) {
-        Log.d("TAG", data);
+        showButton();
+        try {
+            Gson gson = new Gson();
+            ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
+            showErrors(response.getMessages());
+        } catch (Exception e) {
+            savePassword(data);
+        }
+        dismiss();
+        InfoDialog dialog = new InfoDialog("Device was registered", "Registration successful", InfoDialog.BUTTON_TYPE_SUCCESS);
+        dialog.show(getActivity().getSupportFragmentManager(), "info_dialog");
+    }
+
+    private void savePassword(String data) {
+        Gson gson = new Gson();
+        DevicePassword devicePassword = gson.fromJson(data, DevicePassword.class);
+        devicePassword.save(getActivity());
+        Log.d("TAG", devicePassword.getPassword(getActivity()));
+    }
+
+    private void showErrors(String[] messages) {
+        String text = "";
+        for (String m : messages) {
+            text += m +"\n";
+        }
+        if (text.length() > 0) {
+            text = text.substring(0, text.length() - 1);
+        }
+        TextView errors = (TextView) getView().findViewById(R.id.errors);
+        errors.setVisibility(View.VISIBLE);
+        errors.setText(text);
     }
 
     @Override
     public void onConnectionError() {
+        showButton();
+        InfoDialog dialog = new InfoDialog("Can't connect to server", "Error", InfoDialog.BUTTON_TYPE_DANGER);
+        dialog.show(getActivity().getSupportFragmentManager(), "error_dialog");
         Log.e("TAG", "error");
     }
 
@@ -42,7 +76,7 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.device_registration, container, false);
-        getDialog().setTitle("Register this device");
+        getDialog().setTitle("Register this device - fields are optional");
         return rootView;
     }
 
@@ -67,9 +101,10 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
     }
 
     private void register() {
+        hideButton();
         RequestParams params = new RequestParams();
         params.put("identifier", getIdentifier());
-        params.put("public", true);
+        params.put("public", Boolean.toString(publicDevice.isChecked()));
         if (name.getText().length() > 0) {
             params.put("name", name.getText().toString());
         }
@@ -77,12 +112,23 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
             params.put("comment", comment.getText().toString());
         }
         ServerCommunicator communicator = new ServerCommunicator(this, getActivity());
-        communicator.post(communicator.PARAMS_URL, params);
+        communicator.post(ServerCommunicator.REGISTER_DEVICE_URL, params);
     }
 
     private String getIdentifier() {
-
         TelephonyManager tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         return tManager.getDeviceId();
+    }
+
+    private void hideButton() {
+        getView().findViewById(R.id.register).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.cancel).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+    }
+
+    private void showButton() {
+        getView().findViewById(R.id.register).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.cancel).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
     }
 }

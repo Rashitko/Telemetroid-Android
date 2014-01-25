@@ -4,7 +4,17 @@
     xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:visibility="visible">
+
+    <TextView
+        android:id="@+id/errors"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/border"
+        android:visibility="gone"/>
 
     <com.beardedhen.androidbootstrap.BootstrapEditText
         android:id="@+id/name"
@@ -35,34 +45,48 @@
         android:id="@+id/public_device"
         android:layout_gravity="center_horizontal" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Register"
-            bootstrapbutton:bb_size="large"
-            bootstrapbutton:bb_roundedCorners="true"
-            bootstrapbutton:bb_type="success"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/register" />
+            android:layout_gravity="center">
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Register"
+                bootstrapbutton:bb_size="large"
+                bootstrapbutton:bb_roundedCorners="true"
+                bootstrapbutton:bb_type="success"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/register" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Cancel"
+                bootstrapbutton:bb_size="large"
+                bootstrapbutton:bb_roundedCorners="true"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/cancel" />
+        </LinearLayout>
+
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Cancel"
-            bootstrapbutton:bb_size="large"
-            bootstrapbutton:bb_roundedCorners="true"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/cancel" />
-    </LinearLayout>
+            android:id="@+id/progressBar"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"/>
+    </RelativeLayout>
 
 </LinearLayout>

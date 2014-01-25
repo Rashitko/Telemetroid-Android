@@ -11,7 +11,6 @@ public class ServerErrorResponse {
 
     public String toString() {
         String result = "code: " + code + " messages: " + Arrays.toString(messages);
-        Log.d("TAG", result);
         return result;
     }
 
