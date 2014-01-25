@@ -15,6 +15,7 @@ public class ItemListActivity extends FragmentActivity
     private LoginFragment loginFragment;
     private MainScreenFragment mainScreenFragment;
     private LogoutConfirmationDialog logoutConfirmDialog;
+    private RegisterUserFragment registerUserFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,10 @@ public class ItemListActivity extends FragmentActivity
 
     public void loginAsDevicePressed(View view) {
         loginFragment.loginAsDevicePressed(view);
+    }
+
+    public void signUpOnClick(View view) {
+        registerUserFragment.signUpOnClick(view);
     }
 
     @Override
@@ -64,7 +69,7 @@ public class ItemListActivity extends FragmentActivity
     @Override
     public void registerNewUserClicked() {
         if (mTwoPane) {
-            RegisterUserFragment registerUserFragment = new RegisterUserFragment();
+            registerUserFragment = new RegisterUserFragment();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, registerUserFragment)
                     .commit();
