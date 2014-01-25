@@ -69,7 +69,7 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
     private void register() {
         RequestParams params = new RequestParams();
         params.put("identifier", getIdentifier());
-        params.put("public", publicDevice.isChecked());
+        params.put("public", true);
         if (name.getText().length() > 0) {
             params.put("name", name.getText().toString());
         }
