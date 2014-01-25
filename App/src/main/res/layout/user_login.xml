@@ -30,7 +30,8 @@
             android:hint="username"
             bootstrapbutton:be_roundedCorners="true"
             android:gravity="center"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:inputType="text"/>
 
         <com.beardedhen.androidbootstrap.BootstrapEditText
             android:id="@+id/password"
