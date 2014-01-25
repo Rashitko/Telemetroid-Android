@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class ItemListActivity extends FragmentActivity
-        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener, RegisterUserFragment.UserSignUpListener, RegisterDeviceFragment.DeviceRegistrationListener {
+        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener, RegisterUserFragment.UserSignUpListener, RegisterDeviceDialog.DeviceRegistrationListener {
 
     private boolean mTwoPane;
     private LoginFragment loginFragment;
@@ -17,7 +20,8 @@ public class ItemListActivity extends FragmentActivity
     private LogoutConfirmationDialog logoutConfirmDialog;
     private RegisterUserFragment registerUserFragment;
     private LoginOptionsListFragment loginOptionsFragment;
-    private RegisterDeviceFragment registerDeviceFragment;
+    private RegisterDeviceDialog registerDeviceDialog;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,12 @@ public class ItemListActivity extends FragmentActivity
                     .commit();
         }
         // TODO: If exposing deep links into your app, handle intents here.
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void loginAsUserPressed(View view) {
@@ -102,8 +112,15 @@ public class ItemListActivity extends FragmentActivity
     }
 
     @Override
-    public void onDeviceManagmentClicked() {
-        registerDeviceFragment = new RegisterDeviceFragment(this);
+    public void onDeviceManagementClicked() {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.device_management, menu);
+    }
+
+    public void menuOnAddThisDeviceClick(MenuItem item) {
+        FragmentManager fm = getSupportFragmentManager();
+        registerDeviceDialog = new RegisterDeviceDialog(this);
+        registerDeviceDialog.show(fm, "device_registration");
     }
 
     public void logout() {

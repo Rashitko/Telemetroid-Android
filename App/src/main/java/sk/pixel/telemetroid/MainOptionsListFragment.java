@@ -12,7 +12,7 @@ public class MainOptionsListFragment extends OptionsListFragment {
     public interface Callbacks {
         public void onLogoutClicked();
         public void onWhoClicked();
-        public void onDeviceManagmentClicked();
+        public void onDeviceManagementClicked();
     }
 
     public MainOptionsListFragment(Callbacks parent) {
@@ -30,7 +30,7 @@ public class MainOptionsListFragment extends OptionsListFragment {
             parent.onWhoClicked();
         }
         if (position == DEVICE_MANAGMENT_POSITION) {
-            parent.onDeviceManagmentClicked();
+            parent.onDeviceManagementClicked();
         }
     }
 }
