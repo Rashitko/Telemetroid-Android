@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoginFragment extends Fragment implements ServerCommunicator.ServerResponseListener {
-    public static final String LOGIN_TYPE = "login_type";
-    public static final String LOGIN_URL = "/login";
     private static final String USERNAME = "username";
     private static final String SAVE_USERNAME = "save_username";
     private static final String PREFS_NAME = "login_preferences";

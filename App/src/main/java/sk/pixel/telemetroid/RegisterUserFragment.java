@@ -24,6 +24,15 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
     private BootstrapEditText comment;
     private CheckBox publicEmail;
     private String errors;
+    private UserSignUpListener parent;
+
+    public interface UserSignUpListener {
+        public void signUpComplete();
+    }
+
+    public RegisterUserFragment(UserSignUpListener parent) {
+        this.parent = parent;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,9 +91,7 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    if (validatePasswordPresence()) {
-                        validatePasswordConfirmation();
-                    }
+                    validatePasswordPresence();
                 }
             }
         });
@@ -163,11 +170,9 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
         if (password.getText().length() < 6) {
             errors += "Password must contains at least 6 characters" + "\n";
             setDanger(password);
-            setDanger(passwordConfirmation);
             return false;
         } else {
             setSuccess(password);
-            setSuccess(passwordConfirmation);
             return true;
         }
     }
@@ -197,10 +202,10 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
 
     @Override
     public void onPostDataReceived(String data) {
-        Log.d("TAG", data);
         if (data.equals("")) {
-            Log.d("TAG", "registered");
+            parent.signUpComplete();
         } else {
+            setAllToDefaultState();
             Gson gson = new Gson();
             ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
             if (response.getCode() == 1) {
@@ -215,6 +220,13 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
             }
         }
         showButton();
+    }
+
+    private void setAllToDefaultState() {
+        username.setState(BootstrapEditText.BOOTSTRAP_EDIT_TEXT_DEFAULT);
+        password.setState(BootstrapEditText.BOOTSTRAP_EDIT_TEXT_DEFAULT);
+        passwordConfirmation.setState(BootstrapEditText.BOOTSTRAP_EDIT_TEXT_DEFAULT);
+        mail.setState(BootstrapEditText.BOOTSTRAP_EDIT_TEXT_DEFAULT);
     }
 
     @Override
