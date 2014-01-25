@@ -155,7 +155,7 @@ public class LoginFragment extends Fragment implements ServerCommunicator.Server
         }
         Gson gson = new Gson();
         ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
-        String text = response.getMessages();
+        String text = response.getMessages()[0];
         if (response.getCode() == 3) {
             showError(text);
         } else {
