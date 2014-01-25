@@ -9,7 +9,7 @@ import android.view.View;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class ItemListActivity extends FragmentActivity
-        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener, RegisterUserFragment.UserSignUpListener {
+        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener, RegisterUserFragment.UserSignUpListener, RegisterDeviceFragment.DeviceRegistrationListener {
 
     private boolean mTwoPane;
     private LoginFragment loginFragment;
@@ -17,6 +17,7 @@ public class ItemListActivity extends FragmentActivity
     private LogoutConfirmationDialog logoutConfirmDialog;
     private RegisterUserFragment registerUserFragment;
     private LoginOptionsListFragment loginOptionsFragment;
+    private RegisterDeviceFragment registerDeviceFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +101,11 @@ public class ItemListActivity extends FragmentActivity
         });
     }
 
+    @Override
+    public void onDeviceManagmentClicked() {
+        registerDeviceFragment = new RegisterDeviceFragment(this);
+    }
+
     public void logout() {
         ServerCommunicator poster = new ServerCommunicator(this, this);
         poster.post(ServerCommunicator.LOGOUT_URL, null);
@@ -132,5 +138,10 @@ public class ItemListActivity extends FragmentActivity
         infoDialog.show(fm, "inf_confirmation");
         loginOptionsFragment.setActivatedPosition(LoginOptionsListFragment.USER_LOGIN_POSITION);
         loginAsUserOptionClicked();
+    }
+
+    @Override
+    public void onDeviceRegistrationSuccessful() {
+        Log.d("TAG", "registered");
     }
 }

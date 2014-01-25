@@ -5,13 +5,14 @@ import android.widget.ListView;
 
 public class MainOptionsListFragment extends OptionsListFragment {
 
-    private static int WHO_POSITION = 0, LOGOUT_POSITION = 1;
-    private static final String[] OPTIONS = {"--Who--", "Logout"};
+    private static int WHO_POSITION = 0, DEVICE_MANAGMENT_POSITION = 1, LOGOUT_POSITION = 2;
+    private static final String[] OPTIONS = {"--Who--", "Manage devices", "Logout"};
     private final Callbacks parent;
 
     public interface Callbacks {
         public void onLogoutClicked();
         public void onWhoClicked();
+        public void onDeviceManagmentClicked();
     }
 
     public MainOptionsListFragment(Callbacks parent) {
@@ -27,6 +28,9 @@ public class MainOptionsListFragment extends OptionsListFragment {
         }
         if (position == WHO_POSITION) {
             parent.onWhoClicked();
+        }
+        if (position == DEVICE_MANAGMENT_POSITION) {
+            parent.onDeviceManagmentClicked();
         }
     }
 }
