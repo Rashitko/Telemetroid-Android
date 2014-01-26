@@ -16,7 +16,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
-public class LoginFragment extends Fragment implements ServerCommunicator.ServerResponseListener {
+public class LoginFragment extends FormFragment {
     private static final String USERNAME = "username";
     private static final String SAVE_USERNAME = "save_username";
     private static final String PREFS_NAME = "login_preferences";
@@ -27,6 +27,7 @@ public class LoginFragment extends Fragment implements ServerCommunicator.Server
     }
 
     public LoginFragment(LoginCallbacks parent) {
+        super(R.layout.user_login);
         this.parent = parent;
     }
 
@@ -59,18 +60,6 @@ public class LoginFragment extends Fragment implements ServerCommunicator.Server
         }
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.user_login, container, false);
-        return rootView;
-    }
-
     private void fillUsernameFromPrefs() {
         SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_NAME, 0);
         EditText username = (EditText) getView().findViewById(R.id.username);
@@ -80,44 +69,24 @@ public class LoginFragment extends Fragment implements ServerCommunicator.Server
     }
 
     public void loginAsUserPressed(View view) {
-        userLogin();
+        sendData(ServerCommunicator.LOGIN_URL);
     }
 
     private void saveUsername() {
-        Log.d("TAG", "save");
         CheckBox checkBox = (CheckBox) getView().findViewById(R.id.rememeber_username);
-        SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = preferences.edit();
         if (checkBox.isChecked()) {
+            SharedPreferences preferences = getActivity().getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences.Editor editor = preferences.edit();
             EditText username = (EditText) getView().findViewById(R.id.username);
             editor.putString(USERNAME, username.getText().toString());
             editor.putBoolean(SAVE_USERNAME, true);
+            editor.commit();
         }
-        editor.commit();
     }
 
-    private void userLogin() {
+    protected boolean valid() {
         EditText username = (EditText) getView().findViewById(R.id.username);
         EditText password = (EditText) getView().findViewById(R.id.password);
-        if (!validateUsernameAndPassword(username.getText().toString(), password.getText().toString())) {
-            return;
-        }
-        RequestParams params = new RequestParams();
-        params.put("username", username.getText().toString());
-        params.put("password", password.getText().toString());
-        ServerCommunicator poster = new ServerCommunicator(this, getActivity());
-        poster.post(ServerCommunicator.LOGIN_URL, params);
-        makeProgressBarVisible();
-    }
-
-    private void makeProgressBarVisible() {
-        ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.progressBar);
-        BootstrapButton button = (BootstrapButton) getView().findViewById(R.id.login);
-        progressBar.setVisibility(View.VISIBLE);
-        button.setVisibility(View.INVISIBLE);
-    }
-
-    private boolean validateUsernameAndPassword(String username, String password) {
         if (username.length() < 1) {
             showError("Username is too short");
             return false;
@@ -130,8 +99,17 @@ public class LoginFragment extends Fragment implements ServerCommunicator.Server
     }
 
     @Override
+    protected RequestParams prepareParams() {
+        EditText username = (EditText) getView().findViewById(R.id.username);
+        EditText password = (EditText) getView().findViewById(R.id.password);
+        RequestParams result = new RequestParams();
+        result.put("username", username.getText().toString());
+        result.put("password", password.getText().toString());
+        return result;
+    }
+
+    @Override
     public void onPostDataReceived(String data) {
-        makeProgressBarInvisible();
         if (data.equals("")) {
             saveUsername();
             parent.loginSuccessful();
@@ -146,24 +124,7 @@ public class LoginFragment extends Fragment implements ServerCommunicator.Server
             Log.e("TAG", response.toString());
             showError(text);
         }
+        showButtons();
     }
 
-    @Override
-    public void onConnectionError() {
-        makeProgressBarInvisible();
-        showError("Can't connect to server");
-    }
-
-    private void makeProgressBarInvisible() {
-        ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.INVISIBLE);
-        BootstrapButton button = (BootstrapButton) getView().findViewById(R.id.login);
-        button.setVisibility(View.VISIBLE);
-    }
-
-    private void showError(String text) {
-        TextView errors = (TextView) getView().findViewById(R.id.errors);
-        errors.setText(text);
-        errors.setVisibility(View.VISIBLE);
-    }
 }

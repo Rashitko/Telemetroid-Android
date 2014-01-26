@@ -75,7 +75,7 @@
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
                 android:onClick="loginAsUserPressed"
-                android:id="@+id/login" />
+                android:id="@+id/submit" />
         </RelativeLayout>
 
     </LinearLayout>
