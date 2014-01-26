@@ -1,4 +1,4 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.forms.fragments;
 
 import android.view.View;
 import android.widget.CheckBox;
@@ -7,7 +7,12 @@ import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
+import sk.pixel.telemetroid.R;
+import sk.pixel.telemetroid.server.responses.ServerErrorResponse;
+import sk.pixel.telemetroid.utils.ServerCommunicator;
+
 public class RegisterUserFragment extends FormFragment {
+    private final String TAG = "RegisterUserFragment";
 
     private BootstrapEditText username;
     private BootstrapEditText password;

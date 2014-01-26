@@ -11,8 +11,15 @@ import android.view.View;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import sk.pixel.telemetroid.forms.fragments.*;
+import sk.pixel.telemetroid.forms.dialogs.*;
+import sk.pixel.telemetroid.options_lists.*;
+import sk.pixel.telemetroid.utils.ServerCommunicator;
+
 public class ItemListActivity extends FragmentActivity
-        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener, RegisterUserFragment.UserSignUpListener, RegisterDeviceDialog.DeviceRegistrationListener, DeviceLoginFragment.Callbacks {
+        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener, RegisterUserFragment.UserSignUpListener, DeviceLoginFragment.Callbacks {
+
+    private final String TAG = "ItemListActivity";
 
     private boolean mTwoPane;
     private LoginFragment loginFragment;
@@ -112,12 +119,12 @@ public class ItemListActivity extends FragmentActivity
         poster.get(ServerCommunicator.WHO_URL, null, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(String content) {
-                Log.d("TAG", content);
+                Log.d(TAG, content);
             }
 
             @Override
             public void onFailure(Throwable error) {
-                Log.e("TAG", "/who failed");
+                Log.e(TAG, "/who failed");
             }
         });
     }
@@ -130,7 +137,7 @@ public class ItemListActivity extends FragmentActivity
 
     public void menuOnAddThisDeviceClick(MenuItem item) {
         FragmentManager fm = getSupportFragmentManager();
-        registerDeviceDialog = new RegisterDeviceDialog(this);
+        registerDeviceDialog = new RegisterDeviceDialog();
         registerDeviceDialog.show(fm, "device_registration");
     }
 
@@ -169,14 +176,9 @@ public class ItemListActivity extends FragmentActivity
     }
 
     @Override
-    public void onDeviceRegistrationSuccessful() {
-        Log.d("TAG", "registered");
-    }
-
-    @Override
     public void onDeviceLoginSuccessful() {
         if (mTwoPane) {
-            Log.d("TAG", "logged as device");
+            Log.d(TAG, "logged as device");
         }
     }
 }

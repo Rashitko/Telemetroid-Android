@@ -1,4 +1,4 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.forms.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,8 +10,13 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
+import sk.pixel.telemetroid.R;
+import sk.pixel.telemetroid.utils.ServerCommunicator;
+
 
 public abstract class FormFragment extends Fragment implements ServerCommunicator.ServerResponseListener {
+
+    private final String TAG = "FormFragment";
 
     private final int viewResource;
 

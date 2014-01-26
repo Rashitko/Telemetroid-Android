@@ -1,9 +1,7 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.forms.dialogs;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +13,15 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
-public class RegisterDeviceDialog extends DialogFragment implements ServerCommunicator.ServerResponseListener {
+import sk.pixel.telemetroid.InfoDialog;
+import sk.pixel.telemetroid.R;
+import sk.pixel.telemetroid.server.responses.ServerErrorResponse;
+import sk.pixel.telemetroid.utils.DeviceIdentifiers;
+import sk.pixel.telemetroid.utils.ServerCommunicator;
 
-    private final DeviceRegistrationListener listener;
+public class RegisterDeviceDialog extends DialogFragment implements ServerCommunicator.ServerResponseListener {
+    private final String TAG = "RegisterDeviceDialog";
+
     private EditText name;
     private EditText comment;
     private CheckBox publicDevice;
@@ -42,7 +46,7 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
         DeviceIdentifiers deviceIdentifiers = gson.fromJson(data, DeviceIdentifiers.class);
         deviceIdentifiers.setContext(getActivity());
         deviceIdentifiers.save();
-        Log.d("TAG", deviceIdentifiers.getPassword());
+        Log.d(TAG, deviceIdentifiers.getPassword());
     }
 
     private void showErrors(String[] messages) {
@@ -64,14 +68,6 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
         InfoDialog dialog = new InfoDialog("Can't connect to server", "Error", InfoDialog.BUTTON_TYPE_DANGER);
         dialog.show(getActivity().getSupportFragmentManager(), "error_dialog");
         Log.e("TAG", "error");
-    }
-
-    public interface DeviceRegistrationListener {
-        public void onDeviceRegistrationSuccessful();
-    }
-
-    public RegisterDeviceDialog(DeviceRegistrationListener listener) {
-        this.listener = listener;
     }
 
     @Override

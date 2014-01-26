@@ -1,22 +1,20 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.forms.fragments;
 
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
+import sk.pixel.telemetroid.R;
+import sk.pixel.telemetroid.server.responses.ServerErrorResponse;
+import sk.pixel.telemetroid.utils.ServerCommunicator;
+
 public class LoginFragment extends FormFragment {
+    private final String TAG = "LoginFragment";
+
     private static final String USERNAME = "username";
     private static final String SAVE_USERNAME = "save_username";
     private static final String PREFS_NAME = "login_preferences";

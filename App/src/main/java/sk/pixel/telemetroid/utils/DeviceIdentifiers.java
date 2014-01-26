@@ -1,4 +1,4 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 
 public class DeviceIdentifiers {
+
+    private final String TAG = "DeviceIdentifiers";
 
     private static final String PREFS_NAME = "device_preferences";
     private static final String PASSWORD_KEY = "password";

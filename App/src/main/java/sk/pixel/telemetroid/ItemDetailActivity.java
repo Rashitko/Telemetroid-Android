@@ -6,9 +6,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
+
+import sk.pixel.telemetroid.forms.fragments.LoginFragment;
 
 public class ItemDetailActivity extends FragmentActivity implements LoginFragment.LoginCallbacks {
+
+    private final String TAG = "ItemDetailActivity";
 
     private LoginFragment loginFragment;
 
@@ -38,7 +41,7 @@ public class ItemDetailActivity extends FragmentActivity implements LoginFragmen
 
     @Override
     public void loginSuccessful() {
-        Log.d("TAG", "logged in");
+        Log.d(TAG, "logged in");
     }
 
 

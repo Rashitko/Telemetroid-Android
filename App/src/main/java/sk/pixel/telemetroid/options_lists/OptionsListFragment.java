@@ -1,4 +1,4 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.options_lists;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -10,6 +10,7 @@ import android.widget.ListView;
 import java.util.Arrays;
 
 public abstract class OptionsListFragment extends ListFragment {
+    private final String TAG = "OptionsListFragment";
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     protected String[] options = {};

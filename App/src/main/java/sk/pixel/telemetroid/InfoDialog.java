@@ -12,6 +12,8 @@ import com.beardedhen.androidbootstrap.BootstrapEditText;
 
 public class InfoDialog extends DialogFragment {
 
+    private final String TAG = "InfoDialog";
+
     public static final String BUTTON_TYPE_DANGER = "danger", BUTTON_TYPE_SUCCESS = "success";
 
     private final String message;

@@ -1,4 +1,4 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.forms.fragments;
 
 import android.view.View;
 import android.widget.EditText;
@@ -6,7 +6,14 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
+import sk.pixel.telemetroid.R;
+import sk.pixel.telemetroid.server.responses.ServerErrorResponse;
+import sk.pixel.telemetroid.utils.DeviceIdentifiers;
+import sk.pixel.telemetroid.utils.ServerCommunicator;
+
 public class DeviceLoginFragment extends FormFragment {
+
+    private final String TAG = "DeviceLoginFragment";
 
     private final Callbacks listener;
     private EditText password;
