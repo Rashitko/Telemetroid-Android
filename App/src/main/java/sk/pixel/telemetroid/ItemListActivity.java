@@ -12,7 +12,7 @@ import android.view.View;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class ItemListActivity extends FragmentActivity
-        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener, RegisterUserFragment.UserSignUpListener, RegisterDeviceDialog.DeviceRegistrationListener {
+        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener, RegisterUserFragment.UserSignUpListener, RegisterDeviceDialog.DeviceRegistrationListener, DeviceLoginFragment.Callbacks {
 
     private boolean mTwoPane;
     private LoginFragment loginFragment;
@@ -22,6 +22,7 @@ public class ItemListActivity extends FragmentActivity
     private LoginOptionsListFragment loginOptionsFragment;
     private RegisterDeviceDialog registerDeviceDialog;
     private Menu menu;
+    private DeviceLoginFragment deviceLoginFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class ItemListActivity extends FragmentActivity
     }
 
     public void loginAsDevicePressed(View view) {
-        loginFragment.loginAsDevicePressed(view);
+        deviceLoginFragment.loginAsUserPressed(view);
     }
 
     public void signUpOnClick(View view) {
@@ -56,7 +57,7 @@ public class ItemListActivity extends FragmentActivity
     }
 
     @Override
-    public void loginSucessfull() {
+    public void loginSuccessful() {
         if (mTwoPane) {
             mainScreenFragment = new MainScreenFragment();
             getSupportFragmentManager().beginTransaction()
@@ -74,6 +75,16 @@ public class ItemListActivity extends FragmentActivity
             loginFragment = new LoginFragment(this);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, loginFragment)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void loginAsDeviceOptionClicked() {
+        if (mTwoPane) {
+            deviceLoginFragment = new DeviceLoginFragment(this);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.item_detail_container, deviceLoginFragment)
                     .commit();
         }
     }
@@ -160,5 +171,12 @@ public class ItemListActivity extends FragmentActivity
     @Override
     public void onDeviceRegistrationSuccessful() {
         Log.d("TAG", "registered");
+    }
+
+    @Override
+    public void onDeviceLoginSuccessful() {
+        if (mTwoPane) {
+            Log.d("TAG", "logged as device");
+        }
     }
 }

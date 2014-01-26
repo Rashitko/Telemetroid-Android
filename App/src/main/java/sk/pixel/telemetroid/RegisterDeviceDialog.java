@@ -39,9 +39,10 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
 
     private void savePassword(String data) {
         Gson gson = new Gson();
-        DevicePassword devicePassword = gson.fromJson(data, DevicePassword.class);
-        devicePassword.save(getActivity());
-        Log.d("TAG", devicePassword.getPassword(getActivity()));
+        DeviceIdentifiers deviceIdentifiers = gson.fromJson(data, DeviceIdentifiers.class);
+        deviceIdentifiers.setContext(getActivity());
+        deviceIdentifiers.save();
+        Log.d("TAG", deviceIdentifiers.getPassword());
     }
 
     private void showErrors(String[] messages) {
@@ -103,7 +104,8 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
     private void register() {
         hideButton();
         RequestParams params = new RequestParams();
-        params.put("identifier", getIdentifier());
+        DeviceIdentifiers identifiers = new DeviceIdentifiers(getActivity());
+        params.put("identifier", identifiers.getIdentifier());
         params.put("public", Boolean.toString(publicDevice.isChecked()));
         if (name.getText().length() > 0) {
             params.put("name", name.getText().toString());
@@ -115,10 +117,7 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
         communicator.post(ServerCommunicator.REGISTER_DEVICE_URL, params);
     }
 
-    private String getIdentifier() {
-        TelephonyManager tManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        return tManager.getDeviceId();
-    }
+
 
     private void hideButton() {
         getView().findViewById(R.id.register).setVisibility(View.INVISIBLE);

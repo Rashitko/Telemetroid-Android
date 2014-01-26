@@ -16,12 +16,6 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class LoginFragment extends Fragment implements ServerCommunicator.ServerResponseListener {
     private static final String USERNAME = "username";
     private static final String SAVE_USERNAME = "save_username";
@@ -29,7 +23,7 @@ public class LoginFragment extends Fragment implements ServerCommunicator.Server
     private final LoginCallbacks parent;
 
     public interface LoginCallbacks {
-        public void loginSucessfull();
+        public void loginSuccessful();
     }
 
     public LoginFragment(LoginCallbacks parent) {
@@ -135,20 +129,12 @@ public class LoginFragment extends Fragment implements ServerCommunicator.Server
         return true;
     }
 
-    public void loginAsDevicePressed(View view) {
-       deviceLogin();
-    }
-
-    private void deviceLogin() {
-        //TODO login as device
-    }
-
     @Override
     public void onPostDataReceived(String data) {
         makeProgressBarInvisible();
         if (data.equals("")) {
             saveUsername();
-            parent.loginSucessfull();
+            parent.loginSuccessful();
             return;
         }
         Gson gson = new Gson();
