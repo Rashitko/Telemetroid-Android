@@ -13,6 +13,8 @@ import com.loopj.android.http.RequestParams;
 
 public abstract class FormFragment extends Fragment implements ServerCommunicator.ServerResponseListener {
 
+    private final String TAG = "FormFragment";
+
     private final int viewResource;
 
     @Override

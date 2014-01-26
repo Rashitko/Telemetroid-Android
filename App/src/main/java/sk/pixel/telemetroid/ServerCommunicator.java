@@ -7,6 +7,7 @@ import com.loopj.android.http.*;
 import org.apache.http.Header;
 
 public class ServerCommunicator {
+    private final String TAG = "ServerCommunicator";
 
     private static final String BASE_URL = "http://10.0.0.145:3000";
     public static final String LOGIN_URL = "/login", LOGOUT_URL = "/logout", DEVICE_LOGIN_URL = "/devices/login";

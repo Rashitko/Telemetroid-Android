@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 public class LogoutConfirmationDialog extends DialogFragment {
 
+    private final String TAG = "LogoutConfirmationDialog";
+
     private final LogoutDialogListener parent;
 
     public interface LogoutDialogListener {

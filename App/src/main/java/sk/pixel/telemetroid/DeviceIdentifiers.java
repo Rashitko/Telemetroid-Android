@@ -7,6 +7,8 @@ import android.telephony.TelephonyManager;
 
 public class DeviceIdentifiers {
 
+    private final String TAG = "DeviceIdentifiers";
+
     private static final String PREFS_NAME = "device_preferences";
     private static final String PASSWORD_KEY = "password";
 

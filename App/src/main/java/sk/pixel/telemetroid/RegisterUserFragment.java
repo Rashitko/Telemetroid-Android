@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
 public class RegisterUserFragment extends FormFragment {
+    private final String TAG = "RegisterUserFragment";
 
     private BootstrapEditText username;
     private BootstrapEditText password;

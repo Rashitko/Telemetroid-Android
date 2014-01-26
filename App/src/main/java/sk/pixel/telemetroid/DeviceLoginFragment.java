@@ -8,6 +8,8 @@ import com.loopj.android.http.RequestParams;
 
 public class DeviceLoginFragment extends FormFragment {
 
+    private final String TAG = "DeviceLoginFragment";
+
     private final Callbacks listener;
     private EditText password;
 

@@ -10,6 +10,8 @@ import android.view.View;
 
 public class ItemDetailActivity extends FragmentActivity implements LoginFragment.LoginCallbacks {
 
+    private final String TAG = "ItemDetailActivity";
+
     private LoginFragment loginFragment;
 
     @Override
@@ -38,7 +40,7 @@ public class ItemDetailActivity extends FragmentActivity implements LoginFragmen
 
     @Override
     public void loginSuccessful() {
-        Log.d("TAG", "logged in");
+        Log.d(TAG, "logged in");
     }
 
 

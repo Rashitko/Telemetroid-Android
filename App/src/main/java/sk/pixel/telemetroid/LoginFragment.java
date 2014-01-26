@@ -17,6 +17,8 @@ import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
 public class LoginFragment extends FormFragment {
+    private final String TAG = "LoginFragment";
+
     private static final String USERNAME = "username";
     private static final String SAVE_USERNAME = "save_username";
     private static final String PREFS_NAME = "login_preferences";

@@ -5,6 +5,8 @@ import android.widget.ListView;
 
 public class MainOptionsListFragment extends OptionsListFragment {
 
+    private final String TAG = "MainOptionsListFragment";
+
     private static int WHO_POSITION = 0, DEVICE_MANAGMENT_POSITION = 1, LOGOUT_POSITION = 2;
     private static final String[] OPTIONS = {"--Who--", "Manage devices", "Logout"};
     private final Callbacks parent;

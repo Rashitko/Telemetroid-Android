@@ -6,6 +6,8 @@ import android.widget.ListView;
 
 public class LoginOptionsListFragment extends OptionsListFragment{
 
+    private final String TAG = "LoginOptionsListFragment";
+
     public static final int USER_LOGIN_POSITION = 0, DEVICE_LOGIN_POSITION = 1, REGISTRATION_POSITION = 2;
     private static final String[] OPTIONS = new String[]{"Sign in as user", "Sign in as device", "Sign up"};
     private Callbacks listener;

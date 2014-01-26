@@ -6,6 +6,8 @@ import android.util.Log;
 import java.util.Arrays;
 
 public class ServerErrorResponse {
+    private final String TAG = "ServerErrorResponse";
+
     private int code;
     private String[] messages;
 
