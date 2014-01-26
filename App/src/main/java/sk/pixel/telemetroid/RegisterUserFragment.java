@@ -1,20 +1,13 @@
 package sk.pixel.telemetroid;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
 
-public class RegisterUserFragment extends Fragment implements ServerCommunicator.ServerResponseListener {
+public class RegisterUserFragment extends FormFragment {
 
     private BootstrapEditText username;
     private BootstrapEditText password;
@@ -31,43 +24,12 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
     }
 
     public RegisterUserFragment(UserSignUpListener parent) {
+        super(R.layout.user_registration);
         this.parent = parent;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.user_registration, container, false);
-        return rootView;
-    }
-
     public void signUpOnClick(View view) {
-        if (valid()) {
-            signUp();
-        }
-    }
-
-    private void signUp() {
-        hideErrors();
-        hideButton();
-        RequestParams params = new RequestParams();
-        params.put("username", username.getText().toString());
-        params.put("password", password.getText().toString());
-        params.put("mail", mail.getText().toString());
-        params.put("name", name.getText().toString());
-        params.put("comment", comment.getText().toString());
-        params.put("public_email", publicEmail.isChecked());
-        ServerCommunicator communicator = new ServerCommunicator(this, getActivity());
-        communicator.post(ServerCommunicator.REGISTER_USER_URL, params);
-    }
-
-    private void hideErrors() {
-        getView().findViewById(R.id.errors).setVisibility(View.GONE);
+        sendData(ServerCommunicator.REGISTER_USER_URL);
     }
 
     @Override
@@ -121,7 +83,7 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
         publicEmail = (CheckBox) getView().findViewById(R.id.public_email);
     }
 
-    private boolean valid() {
+    protected boolean valid() {
         errors = "";
         errors = validateUsername();
         validatePasswordConfirmation();
@@ -129,12 +91,24 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
         validateMailPresence();
         validateMail();
         if (errors.equals("")) {
-            hideErrors();
+            hideError();
             return true;
         }
         errors = errors.substring(0, errors.length() - 1);
-        showErrors(errors);
+        showError(errors);
         return false;
+    }
+
+    @Override
+    protected RequestParams prepareParams() {
+        RequestParams params = new RequestParams();
+        params.put("username", username.getText().toString());
+        params.put("password", password.getText().toString());
+        params.put("mail", mail.getText().toString());
+        params.put("name", name.getText().toString());
+        params.put("comment", comment.getText().toString());
+        params.put("public_email", publicEmail.isChecked());
+        return params;
     }
 
     private void validatePasswordConfirmation() {
@@ -195,11 +169,6 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
         editText.setState(BootstrapEditText.BOOTSTRAP_EDIT_TEXT_DANGER);
     }
 
-    private void showErrors(String errors) {
-        getView().findViewById(R.id.errors).setVisibility(View.VISIBLE);
-        ((TextView) getView().findViewById(R.id.errors)).setText(errors);
-    }
-
     @Override
     public void onPostDataReceived(String data) {
         if (data.equals("")) {
@@ -209,17 +178,10 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
             Gson gson = new Gson();
             ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
             if (response.getCode() == 1) {
-                String serverErrors = "";
-                for (int i = 0; i < response.getMessages().length; i++) {
-                    serverErrors += response.getMessages()[i] + "\n";
-                }
-                if (serverErrors.length() > 0) {
-                    serverErrors = serverErrors.substring(0, serverErrors.length() - 1);
-                }
-                showErrors(serverErrors);
+                showErrors(response.getMessages());
             }
         }
-        showButton();
+        showButtons();
     }
 
     private void setAllToDefaultState() {
@@ -229,20 +191,4 @@ public class RegisterUserFragment extends Fragment implements ServerCommunicator
         mail.setState(BootstrapEditText.BOOTSTRAP_EDIT_TEXT_DEFAULT);
     }
 
-    @Override
-    public void onConnectionError() {
-        showButton();
-        showErrors("Can't connect to server");
-        Log.e("TAG", "error");
-    }
-
-    private void showButton() {
-        getView().findViewById(R.id.submit).setVisibility(View.VISIBLE);
-        getView().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
-    }
-
-    private void hideButton() {
-        getView().findViewById(R.id.submit).setVisibility(View.INVISIBLE);
-        getView().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-    }
 }

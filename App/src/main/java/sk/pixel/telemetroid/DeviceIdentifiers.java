@@ -31,7 +31,7 @@ public class DeviceIdentifiers {
 
     public String getPassword() {
         SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME, 0);
-        return preferences.getString(PASSWORD_KEY, "not present");
+        return preferences.getString(PASSWORD_KEY, "");
     }
 
     public String getIdentifier() {

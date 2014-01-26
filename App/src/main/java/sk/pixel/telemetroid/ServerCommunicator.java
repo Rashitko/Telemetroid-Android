@@ -1,6 +1,5 @@
 package sk.pixel.telemetroid;
 
-import android.app.FragmentManager;
 import android.content.Context;
 
 import com.loopj.android.http.*;
