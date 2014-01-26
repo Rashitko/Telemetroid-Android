@@ -11,27 +11,53 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
 
+        <TextView
+            android:id="@+id/errors"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/border"
+            android:visibility="gone"/>
+
         <com.beardedhen.androidbootstrap.BootstrapEditText
             android:id="@+id/password"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:hint="password"
+            android:enabled="false"
             bootstrapbutton:be_roundedCorners="true"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:inputType="textPassword" />
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Login as device"
-            bootstrapbutton:bb_roundedCorners="true"
-            bootstrapbutton:bb_type="success"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:onClick="loginAsDevicePressed"/>
+            android:layout_width="wrap_content">
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Login as device"
+                bootstrapbutton:bb_roundedCorners="true"
+                bootstrapbutton:bb_type="success"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:onClick="loginAsDevicePressed"/>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="invisible"
+                android:id="@+id/progressBar" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 </RelativeLayout>

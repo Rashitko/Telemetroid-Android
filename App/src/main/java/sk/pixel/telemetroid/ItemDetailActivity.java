@@ -37,7 +37,7 @@ public class ItemDetailActivity extends FragmentActivity implements LoginFragmen
     }
 
     @Override
-    public void loginSucessfull() {
+    public void loginSuccessful() {
         Log.d("TAG", "logged in");
     }
 
