@@ -117,12 +117,8 @@ public class LoginFragment extends FormFragment {
         }
         Gson gson = new Gson();
         ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
-        String text = response.getMessages()[0];
         if (response.getCode() == 3) {
-            showError(text);
-        } else {
-            Log.e("TAG", response.toString());
-            showError(text);
+            showErrors(response.getMessages());
         }
         showButtons();
     }

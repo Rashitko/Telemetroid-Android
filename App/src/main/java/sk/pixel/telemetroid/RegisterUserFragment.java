@@ -178,14 +178,7 @@ public class RegisterUserFragment extends FormFragment {
             Gson gson = new Gson();
             ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
             if (response.getCode() == 1) {
-                String serverErrors = "";
-                for (int i = 0; i < response.getMessages().length; i++) {
-                    serverErrors += response.getMessages()[i] + "\n";
-                }
-                if (serverErrors.length() > 0) {
-                    serverErrors = serverErrors.substring(0, serverErrors.length() - 1);
-                }
-                showError(serverErrors);
+                showErrors(response.getMessages());
             }
         }
         showButtons();
