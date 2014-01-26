@@ -74,4 +74,8 @@ public abstract class FormFragment extends Fragment implements ServerCommunicato
         errors.setVisibility(View.VISIBLE);
     }
 
+    protected void hideError() {
+        getView().findViewById(R.id.errors).setVisibility(View.GONE);
+    }
+
 }
