@@ -1,4 +1,4 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

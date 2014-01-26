@@ -1,9 +1,7 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.forms.dialogs;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +12,12 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
+
+import sk.pixel.telemetroid.InfoDialog;
+import sk.pixel.telemetroid.R;
+import sk.pixel.telemetroid.server.responses.ServerErrorResponse;
+import sk.pixel.telemetroid.utils.DeviceIdentifiers;
+import sk.pixel.telemetroid.utils.ServerCommunicator;
 
 public class RegisterDeviceDialog extends DialogFragment implements ServerCommunicator.ServerResponseListener {
     private final String TAG = "RegisterDeviceDialog";

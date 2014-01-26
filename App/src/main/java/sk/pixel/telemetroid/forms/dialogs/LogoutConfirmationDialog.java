@@ -1,10 +1,12 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.forms.dialogs;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import sk.pixel.telemetroid.R;
 
 public class LogoutConfirmationDialog extends DialogFragment {
 

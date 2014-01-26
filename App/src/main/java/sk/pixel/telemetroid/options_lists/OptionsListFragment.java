@@ -1,4 +1,4 @@
-package sk.pixel.telemetroid;
+package sk.pixel.telemetroid.options_lists;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
