@@ -131,13 +131,16 @@ public class ItemListActivity extends FragmentActivity
 
     @Override
     public void onDeviceManagementClicked() {
+        menu.clear();
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.device_management, menu);
     }
 
     @Override
     public void onUserProfileClicked() {
-        
+        menu.clear();
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.user_profile_managment, menu);
     }
 
     public void menuOnAddThisDeviceClick(MenuItem item) {
