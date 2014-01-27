@@ -143,6 +143,10 @@ public class ItemListActivity extends FragmentActivity
         menuInflater.inflate(R.menu.user_profile_managment, menu);
     }
 
+    public void onChangePasswordClicked(MenuItem item) {
+
+    }
+
     public void menuOnAddThisDeviceClick(MenuItem item) {
         FragmentManager fm = getSupportFragmentManager();
         registerDeviceDialog = new RegisterDeviceDialog();
