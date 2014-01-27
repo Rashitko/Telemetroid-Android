@@ -131,8 +131,23 @@ public class ItemListActivity extends FragmentActivity
 
     @Override
     public void onDeviceManagementClicked() {
+        menu.clear();
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.device_management, menu);
+    }
+
+    @Override
+    public void onUserProfileClicked() {
+        menu.clear();
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.user_profile_managment, menu);
+    }
+
+    public void onChangePasswordClicked(MenuItem item) {
+        FragmentManager fm = getSupportFragmentManager();
+        ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
+        changePasswordDialog.show(fm, "change_password");
+
     }
 
     public void menuOnAddThisDeviceClick(MenuItem item) {

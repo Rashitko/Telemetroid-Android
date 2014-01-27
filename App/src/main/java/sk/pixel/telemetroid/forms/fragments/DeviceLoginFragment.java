@@ -36,7 +36,7 @@ public class DeviceLoginFragment extends FormFragment {
     }
 
     public void loginAsUserPressed(View view) {
-        sendData(ServerCommunicator.DEVICE_LOGIN_URL);
+        execute(ServerCommunicator.DEVICE_LOGIN_URL);
     }
 
     protected RequestParams prepareParams() {

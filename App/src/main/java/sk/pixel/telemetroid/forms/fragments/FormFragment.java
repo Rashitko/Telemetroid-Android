@@ -22,9 +22,7 @@ public abstract class FormFragment extends Fragment implements ServerCommunicato
 
     @Override
     public abstract void onPostDataReceived(String data);
-
     protected abstract boolean valid();
-
     protected abstract RequestParams prepareParams();
 
     public FormFragment(int viewResource) {
@@ -43,7 +41,7 @@ public abstract class FormFragment extends Fragment implements ServerCommunicato
         return rootView;
     }
 
-    protected void sendData(String url) {
+    protected void execute(String url) {
         if (!valid()) {
             return;
         }
@@ -61,17 +59,11 @@ public abstract class FormFragment extends Fragment implements ServerCommunicato
 
     protected void showButtons() {
         getView().findViewById(R.id.submit).setVisibility(View.VISIBLE);
-        if (getView().findViewById(R.id.cancel) != null) {
-            getView().findViewById(R.id.cancel).setVisibility(View.VISIBLE);
-        }
         getView().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
     }
 
     protected void hideButtons() {
         getView().findViewById(R.id.submit).setVisibility(View.INVISIBLE);
-        if (getView().findViewById(R.id.cancel) != null) {
-            getView().findViewById(R.id.cancel).setVisibility(View.INVISIBLE);
-        }
         getView().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
     }
 
