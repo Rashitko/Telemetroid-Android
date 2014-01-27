@@ -34,7 +34,7 @@ public class RegisterUserFragment extends FormFragment {
     }
 
     public void signUpOnClick(View view) {
-        sendData(ServerCommunicator.REGISTER_USER_URL);
+        execute(ServerCommunicator.REGISTER_USER_URL);
     }
 
     @Override

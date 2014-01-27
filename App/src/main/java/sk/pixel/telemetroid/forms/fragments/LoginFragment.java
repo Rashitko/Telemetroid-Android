@@ -67,7 +67,7 @@ public class LoginFragment extends FormFragment {
     }
 
     public void loginAsUserPressed(View view) {
-        sendData(ServerCommunicator.LOGIN_URL);
+        execute(ServerCommunicator.LOGIN_URL);
     }
 
     private void saveUsername() {

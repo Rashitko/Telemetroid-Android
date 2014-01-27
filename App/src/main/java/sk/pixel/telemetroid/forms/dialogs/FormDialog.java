@@ -65,8 +65,9 @@ public abstract class FormDialog extends DialogFragment implements ServerCommuni
     @Override
     public void onConnectionError() {
         showButtons();
-        InfoDialog dialog = new InfoDialog("Can't connect to server", "Error", InfoDialog.BUTTON_TYPE_DANGER);
-        dialog.show(getActivity().getSupportFragmentManager(), "error_dialog");
+//        InfoDialog dialog = new InfoDialog("Can't connect to server", "Error", InfoDialog.BUTTON_TYPE_DANGER);
+//        dialog.show(getActivity().getSupportFragmentManager(), "error_dialog");
+        showError("Can't connect to server");
     }
 
     protected void showErrors(String[] messages) {
