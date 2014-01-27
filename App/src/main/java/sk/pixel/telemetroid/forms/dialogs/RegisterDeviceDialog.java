@@ -71,28 +71,16 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
         Log.e("TAG", "error");
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.device_registration, container, false);
-        getDialog().setTitle("Register this device - fields are optional");
-        return rootView;
-    }
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        View rootView = inflater.inflate(R.layout.device_registration, container, false);
+//        getDialog().setTitle("Register this device - fields are optional");
+//        return rootView;
+//    }
 
     @Override
     public void onStart() {
         super.onStart();
-        getView().findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                register();
-            }
-        });
-        getView().findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
         name = (EditText) getView().findViewById(R.id.name);
         comment = (EditText) getView().findViewById(R.id.comment);
         publicDevice = (CheckBox) getView().findViewById(R.id.public_device);

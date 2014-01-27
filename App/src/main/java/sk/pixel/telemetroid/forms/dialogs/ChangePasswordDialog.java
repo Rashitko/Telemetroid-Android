@@ -45,6 +45,6 @@ public class ChangePasswordDialog extends DialogFragment {
     }
 
     private void change() {
-        
+
     }
 }

@@ -22,9 +22,7 @@ public abstract class FormFragment extends Fragment implements ServerCommunicato
 
     @Override
     public abstract void onPostDataReceived(String data);
-
     protected abstract boolean valid();
-
     protected abstract RequestParams prepareParams();
 
     public FormFragment(int viewResource) {
