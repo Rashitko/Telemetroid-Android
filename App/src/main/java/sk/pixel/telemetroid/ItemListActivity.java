@@ -144,6 +144,9 @@ public class ItemListActivity extends FragmentActivity
     }
 
     public void onChangePasswordClicked(MenuItem item) {
+        FragmentManager fm = getSupportFragmentManager();
+        ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
+        changePasswordDialog.show(fm, "change_password");
 
     }
 
