@@ -19,16 +19,20 @@ import sk.pixel.telemetroid.server.responses.ServerErrorResponse;
 import sk.pixel.telemetroid.utils.DeviceIdentifiers;
 import sk.pixel.telemetroid.utils.ServerCommunicator;
 
-public class RegisterDeviceDialog extends DialogFragment implements ServerCommunicator.ServerResponseListener {
+public class RegisterDeviceDialog extends FormDialog {
     private final String TAG = "RegisterDeviceDialog";
 
     private EditText name;
     private EditText comment;
     private CheckBox publicDevice;
 
+    public RegisterDeviceDialog() {
+        super(R.layout.device_registration, ServerCommunicator.REGISTER_DEVICE_URL);
+    }
+
     @Override
     public void onPostDataReceived(String data) {
-        showButton();
+        showButtons();
         try {
             Gson gson = new Gson();
             ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
@@ -50,34 +54,6 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
         Log.d(TAG, deviceIdentifiers.getPassword());
     }
 
-    private void showErrors(String[] messages) {
-        String text = "";
-        for (String m : messages) {
-            text += m +"\n";
-        }
-        if (text.length() > 0) {
-            text = text.substring(0, text.length() - 1);
-        }
-        TextView errors = (TextView) getView().findViewById(R.id.errors);
-        errors.setVisibility(View.VISIBLE);
-        errors.setText(text);
-    }
-
-    @Override
-    public void onConnectionError() {
-        showButton();
-        InfoDialog dialog = new InfoDialog("Can't connect to server", "Error", InfoDialog.BUTTON_TYPE_DANGER);
-        dialog.show(getActivity().getSupportFragmentManager(), "error_dialog");
-        Log.e("TAG", "error");
-    }
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View rootView = inflater.inflate(R.layout.device_registration, container, false);
-//        getDialog().setTitle("Register this device - fields are optional");
-//        return rootView;
-//    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -86,8 +62,8 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
         publicDevice = (CheckBox) getView().findViewById(R.id.public_device);
     }
 
-    private void register() {
-        hideButton();
+    @Override
+    protected RequestParams prepareParams() {
         RequestParams params = new RequestParams();
         DeviceIdentifiers identifiers = new DeviceIdentifiers(getActivity());
         params.put("identifier", identifiers.getIdentifier());
@@ -98,21 +74,16 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
         if (comment.getText().length() > 0) {
             params.put("comment", comment.getText().toString());
         }
-        ServerCommunicator communicator = new ServerCommunicator(this, getActivity());
-        communicator.post(ServerCommunicator.REGISTER_DEVICE_URL, params);
+        return params;
     }
 
-
-
-    private void hideButton() {
-        getView().findViewById(R.id.register).setVisibility(View.INVISIBLE);
-        getView().findViewById(R.id.cancel).setVisibility(View.INVISIBLE);
-        getView().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-    }
-
-    private void showButton() {
-        getView().findViewById(R.id.register).setVisibility(View.VISIBLE);
-        getView().findViewById(R.id.cancel).setVisibility(View.VISIBLE);
-        getView().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+    @Override
+    protected boolean valid() {
+        DeviceIdentifiers identifiers = new DeviceIdentifiers(getActivity());
+        if (identifiers.getIdentifier().length() > 0) {
+            return true;
+        }
+        showErrors(new String[] {"Can't find identifier of this device. Please report this bug"});
+        return false;
     }
 }

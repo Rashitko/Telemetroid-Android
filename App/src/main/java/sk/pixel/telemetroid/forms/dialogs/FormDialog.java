@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
@@ -66,6 +67,23 @@ public abstract class FormDialog extends DialogFragment implements ServerCommuni
         showButtons();
         InfoDialog dialog = new InfoDialog("Can't connect to server", "Error", InfoDialog.BUTTON_TYPE_DANGER);
         dialog.show(getActivity().getSupportFragmentManager(), "error_dialog");
+    }
+
+    protected void showErrors(String[] messages) {
+        String text = "";
+        for (String m : messages) {
+            text += m +"\n";
+        }
+        if (text.length() > 0) {
+            text = text.substring(0, text.length() - 1);
+        }
+        showError(text);
+    }
+
+    protected void showError(String text) {
+        TextView errors = (TextView) getView().findViewById(R.id.errors);
+        errors.setVisibility(View.VISIBLE);
+        errors.setText(text);
     }
 
     protected void showButtons() {

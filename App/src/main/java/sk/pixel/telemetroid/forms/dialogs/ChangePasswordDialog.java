@@ -1,50 +1,62 @@
 package sk.pixel.telemetroid.forms.dialogs;
 
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.loopj.android.http.RequestParams;
+
+import sk.pixel.telemetroid.InfoDialog;
 import sk.pixel.telemetroid.R;
+import sk.pixel.telemetroid.server.responses.ServerErrorResponse;
 import sk.pixel.telemetroid.utils.ServerCommunicator;
 
-public class ChangePasswordDialog extends DialogFragment {
+public class ChangePasswordDialog extends FormDialog {
 
     private EditText oldPassword;
     private EditText newPassword;
     private EditText newConfirmation;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.change_password, container, false);
-        getDialog().setTitle("Register this device - fields are optional");
-        return rootView;
+    public ChangePasswordDialog() {
+        super(R.layout.change_password, ServerCommunicator.CHANGE_PASSWORD_URL);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        getView().findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                change();
-            }
-        });
-        getView().findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
         oldPassword = (EditText) getView().findViewById(R.id.old_password);
         newPassword = (EditText) getView().findViewById(R.id.password);
         newConfirmation = (EditText) getView().findViewById(R.id.password_confirmation);
     }
 
-    private void change() {
+    @Override
+    protected RequestParams prepareParams() {
+        RequestParams params = new RequestParams();
+        params.put("old", oldPassword.getText().toString());
+        params.put("new", newPassword.getText().toString());
+        return params;
+    }
 
+    @Override
+    protected boolean valid() {
+        if (oldPassword.getText().length() < 6 || newPassword.getText().length() < 6 || newConfirmation.getText().length() < 6) {
+            showError("Password is too short");
+            return false;
+        }
+        if (newPassword.getText().toString().equals(newConfirmation.getText().toString())) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onPostDataReceived(String data) {
+        if (data.equals("")) {
+            InfoDialog infoDialog = new InfoDialog("Password successfully changed", "Password changed", InfoDialog.BUTTON_TYPE_SUCCESS);
+            infoDialog.show(getActivity().getSupportFragmentManager(), "password_change");
+            return;
+        }
+        Gson gson = new Gson();
+        ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
+        showErrors(response.getMessages());
     }
 }
