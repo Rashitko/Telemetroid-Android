@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 
-import sk.pixel.telemetroid.InfoDialog;
 import sk.pixel.telemetroid.R;
 import sk.pixel.telemetroid.utils.ServerCommunicator;
 
 public abstract class FormDialog extends DialogFragment implements ServerCommunicator.ServerResponseListener {
 
+    private final String title;
     private int layoutId;
     private String url;
 
@@ -23,22 +23,23 @@ public abstract class FormDialog extends DialogFragment implements ServerCommuni
     protected abstract boolean valid();
     public abstract void onPostDataReceived(String data);
 
-    public FormDialog(int layoutId, String url) {
+    public FormDialog(int layoutId, String url, String title) {
         this.layoutId = layoutId;
         this.url = url;
+        this.title = title;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(layoutId, container, false);
-        getDialog().setTitle("Register this device - fields are optional");
+        getDialog().setTitle(title);
         return rootView;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        getView().findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
+        getView().findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 execute();
@@ -65,8 +66,6 @@ public abstract class FormDialog extends DialogFragment implements ServerCommuni
     @Override
     public void onConnectionError() {
         showButtons();
-//        InfoDialog dialog = new InfoDialog("Can't connect to server", "Error", InfoDialog.BUTTON_TYPE_DANGER);
-//        dialog.show(getActivity().getSupportFragmentManager(), "error_dialog");
         showError("Can't connect to server");
     }
 

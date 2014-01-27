@@ -61,19 +61,17 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Register"
-                bootstrapbutton:bb_size="large"
                 bootstrapbutton:bb_roundedCorners="true"
                 bootstrapbutton:bb_type="success"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/register" />
+                android:id="@+id/submit" />
 
             <com.beardedhen.androidbootstrap.BootstrapButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Cancel"
-                bootstrapbutton:bb_size="large"
                 bootstrapbutton:bb_roundedCorners="true"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"

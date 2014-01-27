@@ -27,7 +27,7 @@ public class RegisterDeviceDialog extends FormDialog {
     private CheckBox publicDevice;
 
     public RegisterDeviceDialog() {
-        super(R.layout.device_registration, ServerCommunicator.REGISTER_DEVICE_URL);
+        super(R.layout.device_registration, ServerCommunicator.REGISTER_DEVICE_URL, "Register this device - fields are optional");
     }
 
     @Override

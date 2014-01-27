@@ -17,7 +17,7 @@ public class ChangePasswordDialog extends FormDialog {
     private EditText newConfirmation;
 
     public ChangePasswordDialog() {
-        super(R.layout.change_password, ServerCommunicator.CHANGE_PASSWORD_URL);
+        super(R.layout.change_password, ServerCommunicator.CHANGE_PASSWORD_URL, "Change password");
     }
 
     @Override
@@ -45,6 +45,7 @@ public class ChangePasswordDialog extends FormDialog {
         if (newPassword.getText().toString().equals(newConfirmation.getText().toString())) {
             return true;
         }
+        showError("Passwords don't match");
         return false;
     }
 
@@ -53,10 +54,12 @@ public class ChangePasswordDialog extends FormDialog {
         if (data.equals("")) {
             InfoDialog infoDialog = new InfoDialog("Password successfully changed", "Password changed", InfoDialog.BUTTON_TYPE_SUCCESS);
             infoDialog.show(getActivity().getSupportFragmentManager(), "password_change");
+            dismiss();
             return;
         }
         Gson gson = new Gson();
         ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
         showErrors(response.getMessages());
+        showButtons();
     }
 }
