@@ -7,14 +7,15 @@ public class MainOptionsListFragment extends OptionsListFragment {
 
     private final String TAG = "MainOptionsListFragment";
 
-    private static int WHO_POSITION = 0, DEVICE_MANAGMENT_POSITION = 1, LOGOUT_POSITION = 2;
-    private static final String[] OPTIONS = {"--Who--", "Manage devices", "Logout"};
+    private static int WHO_POSITION = 0, DEVICE_MANAGMENT_POSITION = 1, USER_PROFILE_POSITION = 2, LOGOUT_POSITION = 3;
+    private static final String[] OPTIONS = {"--Who--", "Manage devices", "User profile", "Logout"};
     private final Callbacks parent;
 
     public interface Callbacks {
         public void onLogoutClicked();
         public void onWhoClicked();
         public void onDeviceManagementClicked();
+        public void onUserProfileClicked();
     }
 
     public MainOptionsListFragment(Callbacks parent) {
@@ -33,6 +34,9 @@ public class MainOptionsListFragment extends OptionsListFragment {
         }
         if (position == DEVICE_MANAGMENT_POSITION) {
             parent.onDeviceManagementClicked();
+        }
+        if (position == USER_PROFILE_POSITION) {
+            parent.onUserProfileClicked();
         }
     }
 }

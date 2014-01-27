@@ -135,6 +135,11 @@ public class ItemListActivity extends FragmentActivity
         menuInflater.inflate(R.menu.device_management, menu);
     }
 
+    @Override
+    public void onUserProfileClicked() {
+        
+    }
+
     public void menuOnAddThisDeviceClick(MenuItem item) {
         FragmentManager fm = getSupportFragmentManager();
         registerDeviceDialog = new RegisterDeviceDialog();
