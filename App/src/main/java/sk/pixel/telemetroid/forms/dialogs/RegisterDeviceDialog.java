@@ -33,6 +33,7 @@ public class RegisterDeviceDialog extends DialogFragment implements ServerCommun
             Gson gson = new Gson();
             ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
             showErrors(response.getMessages());
+            return;
         } catch (Exception e) {
             savePassword(data);
         }
