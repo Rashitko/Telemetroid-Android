@@ -53,6 +53,11 @@ public class UserViewFragment extends Fragment implements ServerCommunicator.Ser
         getActivity().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
     }
 
+    private void hideButtons() {
+        getActivity().findViewById(R.id.submit).setVisibility(View.INVISIBLE);
+        getActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onConnectionError() {
         showError("Can't connect to server");
@@ -128,6 +133,7 @@ public class UserViewFragment extends Fragment implements ServerCommunicator.Ser
                 Gson gson = new Gson();
                 ServerErrorResponse response = gson.fromJson(data, ServerErrorResponse.class);
                 showError(response.getMessagesAsString());
+                showButtons();
             }
             @Override
             public void onConnectionError() {
@@ -135,6 +141,7 @@ public class UserViewFragment extends Fragment implements ServerCommunicator.Ser
             }
         }, getActivity());
         communicator.post(ServerCommunicator.EDIT_USER_URL, params);
+        hideButtons();
     }
 
     private void showError(String text) {
