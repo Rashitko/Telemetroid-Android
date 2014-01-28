@@ -55,7 +55,7 @@ public class UserViewFragment extends Fragment implements ServerCommunicator.Ser
 
     @Override
     public void onConnectionError() {
-        Log.e(TAG, "connectionError");
+        showError("Can't connect to server");
     }
 
     public interface UserViewEventsListener {
