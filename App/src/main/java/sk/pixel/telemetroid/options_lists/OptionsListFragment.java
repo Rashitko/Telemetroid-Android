@@ -3,31 +3,46 @@ package sk.pixel.telemetroid.options_lists;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public abstract class OptionsListFragment extends ListFragment {
     private final String TAG = "OptionsListFragment";
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    protected String[] options = {};
+    private final Integer[] icons;
+    private final String[] options;
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
-    public OptionsListFragment(String[] options) {
+    public OptionsListFragment(String[] options, Integer[] icons) {
+        this.icons = icons;
         this.options = options;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setListAdapter(new ArrayAdapter<String>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                options));
+        ArrayList<HashMap<String, String>> titleData = new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, Integer>> imageData = new ArrayList<HashMap<String, Integer>>();
+        HashMap<String, String> titleEntry;
+        HashMap<String, Integer> imageEntry;
+        for (int i = 0; i < options.length; i++) {
+            titleEntry = new HashMap<String, String>();
+            titleEntry.put(OptionsAdapter.TITLE_KEY, options[i]);
+            titleData.add(titleEntry);
+            imageEntry = new HashMap<String, Integer>();
+            imageEntry.put(OptionsAdapter.IMAGE_RESOURCE_KEY, icons[i]);
+            imageData.add(imageEntry);
+        }
+        OptionsAdapter adapter = new OptionsAdapter(getActivity(), titleData, imageData);
+        setListAdapter(adapter);
     }
 
     @Override
