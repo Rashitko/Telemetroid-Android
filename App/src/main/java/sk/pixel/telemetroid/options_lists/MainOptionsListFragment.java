@@ -9,6 +9,7 @@ public class MainOptionsListFragment extends OptionsListFragment {
 
     private static int WHO_POSITION = 0, DEVICE_MANAGMENT_POSITION = 1, USER_PROFILE_POSITION = 2, LOGOUT_POSITION = 3;
     private static final String[] OPTIONS = {"--Who--", "Manage devices", "User profile", "Logout"};
+    private static final Integer[] ICONS = {android.R.drawable.ic_menu_info_details, android.R.drawable.ic_menu_view, android.R.drawable.ic_menu_view, android.R.drawable.ic_menu_close_clear_cancel};
     private final Callbacks parent;
 
     public interface Callbacks {
@@ -19,7 +20,7 @@ public class MainOptionsListFragment extends OptionsListFragment {
     }
 
     public MainOptionsListFragment(Callbacks parent) {
-        super(OPTIONS);
+        super(OPTIONS, ICONS);
         this.parent = parent;
     }
 

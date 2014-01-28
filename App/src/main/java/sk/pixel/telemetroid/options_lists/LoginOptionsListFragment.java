@@ -10,6 +10,7 @@ public class LoginOptionsListFragment extends OptionsListFragment{
 
     public static final int USER_LOGIN_POSITION = 0, DEVICE_LOGIN_POSITION = 1, REGISTRATION_POSITION = 2;
     private static final String[] OPTIONS = new String[]{"Sign in as user", "Sign in as device", "Sign up"};
+    private static final Integer[] ICONS = new Integer[]{android.R.drawable.ic_menu_directions, android.R.drawable.ic_menu_directions, android.R.drawable.ic_menu_add};
     private Callbacks listener;
 
     public interface Callbacks {
@@ -24,7 +25,7 @@ public class LoginOptionsListFragment extends OptionsListFragment{
     }
 
     public LoginOptionsListFragment(Callbacks listener) {
-        super(OPTIONS);
+        super(OPTIONS, ICONS);
         this.listener = listener;
     }
 

@@ -13,16 +13,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import sk.pixel.telemetroid.R;
-
 public abstract class OptionsListFragment extends ListFragment {
     private final String TAG = "OptionsListFragment";
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    protected String[] options = {};
+    private final Integer[] icons;
+    private final String[] options;
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
-    public OptionsListFragment(String[] options) {
+    public OptionsListFragment(String[] options, Integer[] icons) {
+        this.icons = icons;
         this.options = options;
     }
 
@@ -38,7 +38,7 @@ public abstract class OptionsListFragment extends ListFragment {
             titleEntry.put(OptionsAdapter.TITLE_KEY, options[i]);
             titleData.add(titleEntry);
             imageEntry = new HashMap<String, Integer>();
-            imageEntry.put(OptionsAdapter.IMAGE_RESOURCE_KEY, android.R.drawable.ic_dialog_alert);
+            imageEntry.put(OptionsAdapter.IMAGE_RESOURCE_KEY, icons[i]);
             imageData.add(imageEntry);
         }
         OptionsAdapter adapter = new OptionsAdapter(getActivity(), titleData, imageData);
