@@ -23,4 +23,15 @@ public class ServerErrorResponse {
     public String[] getMessages() {
         return messages;
     }
+
+    public String getMessagesAsString() {
+        String result = "";
+        for (String m : messages) {
+            result += m + "\n";
+        }
+        if (result.length() > 0) {
+            result = result.substring(0, result.length() - 1);
+        }
+        return result;
+    }
 }

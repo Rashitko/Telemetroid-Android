@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -38,6 +39,7 @@ public class ItemListActivity extends FragmentActivity
     private DeviceLoginFragment deviceLoginFragment;
     private UserViewFragment userViewFragment;
     private UserViewFragment userViewOptions;
+    private String loggedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,9 @@ public class ItemListActivity extends FragmentActivity
     @Override
     public void loginSuccessful() {
         if (mTwoPane) {
+            EditText username = (EditText) findViewById(R.id.username);
+            loggedUser = username.getText().toString();
+            Log.i(TAG, "logged as " + loggedUser);
             mainScreenFragment = new MainScreenFragment();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, mainScreenFragment)
@@ -208,5 +213,15 @@ public class ItemListActivity extends FragmentActivity
         if (mTwoPane) {
             Log.d(TAG, "logged as device");
         }
+    }
+
+    @Override
+    public String getLoggedUser() {
+        return loggedUser;
+    }
+
+    @Override
+    public void reloadUserView() {
+        onUserProfileClicked();
     }
 }
