@@ -8,19 +8,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import sk.pixel.telemetroid.forms.fragments.*;
-import sk.pixel.telemetroid.forms.dialogs.*;
-import sk.pixel.telemetroid.options_lists.*;
+import sk.pixel.telemetroid.forms.dialogs.ChangePasswordDialog;
+import sk.pixel.telemetroid.forms.dialogs.LogoutConfirmationDialog;
+import sk.pixel.telemetroid.forms.dialogs.RegisterDeviceDialog;
+import sk.pixel.telemetroid.forms.fragments.DeviceLoginFragment;
+import sk.pixel.telemetroid.forms.fragments.LoginFragment;
+import sk.pixel.telemetroid.forms.fragments.RegisterUserFragment;
+import sk.pixel.telemetroid.options_lists.LoginOptionsListFragment;
+import sk.pixel.telemetroid.options_lists.MainOptionsListFragment;
 import sk.pixel.telemetroid.utils.ServerCommunicator;
 
 public class ItemListActivity extends FragmentActivity
-        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks, ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener, RegisterUserFragment.UserSignUpListener, DeviceLoginFragment.Callbacks {
+        implements LoginFragment.LoginCallbacks, LoginOptionsListFragment.Callbacks, MainOptionsListFragment.Callbacks,
+        ServerCommunicator.ServerResponseListener, LogoutConfirmationDialog.LogoutDialogListener,
+        RegisterUserFragment.UserSignUpListener, DeviceLoginFragment.Callbacks, UserViewFragment.UserViewEventsListener {
 
     private final String TAG = "ItemListActivity";
-
     private boolean mTwoPane;
     private LoginFragment loginFragment;
     private MainScreenFragment mainScreenFragment;
@@ -30,6 +37,9 @@ public class ItemListActivity extends FragmentActivity
     private RegisterDeviceDialog registerDeviceDialog;
     private Menu menu;
     private DeviceLoginFragment deviceLoginFragment;
+    private UserViewFragment userViewFragment;
+    private UserViewFragment userViewOptions;
+    private String loggedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +76,9 @@ public class ItemListActivity extends FragmentActivity
     @Override
     public void loginSuccessful() {
         if (mTwoPane) {
+            EditText username = (EditText) findViewById(R.id.username);
+            loggedUser = username.getText().toString();
+            Log.i(TAG, "logged as " + loggedUser);
             mainScreenFragment = new MainScreenFragment();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, mainScreenFragment)
@@ -141,6 +154,11 @@ public class ItemListActivity extends FragmentActivity
         menu.clear();
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.user_profile_managment, menu);
+        userViewFragment = new UserViewFragment(this);
+        userViewOptions = new UserViewFragment(this);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.item_detail_container, userViewFragment)
+                .commit();
     }
 
     public void onChangePasswordClicked(MenuItem item) {
@@ -195,5 +213,15 @@ public class ItemListActivity extends FragmentActivity
         if (mTwoPane) {
             Log.d(TAG, "logged as device");
         }
+    }
+
+    @Override
+    public String getLoggedUser() {
+        return loggedUser;
+    }
+
+    @Override
+    public void reloadUserView() {
+        onUserProfileClicked();
     }
 }
