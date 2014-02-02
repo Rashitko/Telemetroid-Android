@@ -2,10 +2,10 @@
 <merger>
 
     <dataSet config="main" >
-        <source path="D:\Android\workspace\Telemetroid\AndroidBootstrap\src\main\assets" />
+        <source path="/mnt/windows_data/android_linux/Telemetroid/AndroidBootstrap/src/main/assets" />
     </dataSet>
     <dataSet config="debug" >
-        <source path="D:\Android\workspace\Telemetroid\AndroidBootstrap\src\debug\assets" />
+        <source path="/mnt/windows_data/android_linux/Telemetroid/AndroidBootstrap/src/debug/assets" />
     </dataSet>
 
 </merger>

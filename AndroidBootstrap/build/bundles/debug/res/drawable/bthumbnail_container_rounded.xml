@@ -7,4 +7,4 @@
             <corners android:radius="@dimen/bthumbnail_rounded_corner_radius"/>
         </shape></item>
 
-</selector><!-- From: file:/D:/Android/workspace/Telemetroid/AndroidBootstrap/res/drawable/bthumbnail_container_rounded.xml -->
+</selector><!-- From: file:/mnt/windows_data/android_linux/Telemetroid/AndroidBootstrap/res/drawable/bthumbnail_container_rounded.xml -->

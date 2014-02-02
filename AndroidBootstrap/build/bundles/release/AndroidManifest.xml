@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.beardedhen.androidbootstrap">
+<!-- From: file:/mnt/windows_data/android_linux/Telemetroid/AndroidBootstrap/AndroidManifest.xml --><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.beardedhen.androidbootstrap">
 
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19"/>
 

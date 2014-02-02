@@ -87,11 +87,7 @@ public class UserViewFragment extends Fragment implements ServerCommunicator.Ser
     @Override
     public void onStart() {
         super.onStart();
-        username = (EditText) getView().findViewById(R.id.username);
-        publicMail = (CheckBox) getActivity().findViewById(R.id.public_email);
-        name = (BootstrapEditText) getView().findViewById(R.id.name);
-        comment = (BootstrapEditText) getView().findViewById(R.id.comment);
-        mail = (BootstrapEditText) getActivity().findViewById(R.id.mail);
+        initViews();
         makeNotEditable(name);
         makeNotEditable(comment);
         makeNotEditable(publicMail);
@@ -114,6 +110,14 @@ public class UserViewFragment extends Fragment implements ServerCommunicator.Ser
                 name.requestFocus();
             }
         });
+    }
+
+    private void initViews() {
+        username = (EditText) getView().findViewById(R.id.username);
+        publicMail = (CheckBox) getActivity().findViewById(R.id.public_email);
+        name = (BootstrapEditText) getView().findViewById(R.id.name);
+        comment = (BootstrapEditText) getView().findViewById(R.id.comment);
+        mail = (BootstrapEditText) getActivity().findViewById(R.id.mail);
     }
 
     private void save() {
